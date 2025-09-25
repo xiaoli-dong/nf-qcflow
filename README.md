@@ -31,7 +31,11 @@ First, prepare a samplesheet with your input data that looks as follows:
 
 ```csv
 sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+sample1,./fastq/3_S3_L001_R1_001.fastq.gz,./fastq/3_S3_L001_R2_001.fastq.gz
+sample2,./fastq/78_S30_L001_R1.fastq.gz,./fastq/78_S30_L001_R2.fastq.gz
+measle,./fastq/47_S47_L001_R1_001.fastq.gz,./fastq/47_S47_L001_R2_001.fastq.gz
+flua,./fastq/30_S30_L001_R1_001.fastq.gz,./fastq/30_S30_L001_R2_001.fastq.gz
+flub,./fastq/315_S122_L001_R1_001.fastq.gz,./fastq/315_S122_L001_R2_001.fastq.gz
 ```
 
 Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
@@ -44,7 +48,7 @@ Now, you can run the pipeline using:
 
 ```bash
 # running directly from github without downloading or cloning
-nextflow run xiaoli-dong/nf-qcflow -r revision_number(e.g:bad4de0) --help
+nextflow run nf-qcflow/main.nf -profile singularity --input samplesheet.csv --platform illumina --outdir results
 ```
 
 > [!WARNING]
