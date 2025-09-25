@@ -1,0 +1,50 @@
+repository_type: pipeline
+
+nf_core_version: 3.3.2
+
+lint:
+  files_unchanged:
+    - .github/CONTRIBUTING.md
+    - assets/sendmail_template.txt
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_dark.png
+    - .github/ISSUE_TEMPLATE/bug_report.yml
+    - .github/CONTRIBUTING.md
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - assets/email_template.txt
+    - docs/README.md
+  nextflow_config:
+    - manifest.name
+    - manifest.homePage
+    - validation.help.beforeText
+    - validation.help.afterText
+    - validation.summary.beforeText
+    - validation.summary.afterText
+  multiqc_config: false
+  files_exist:
+    - assets/multiqc_config.yml
+    - CODE_OF_CONDUCT.md
+    - assets/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_light.png
+    - docs/images/nf-core-qcflow_logo_dark.png
+    - .github/ISSUE_TEMPLATE/config.yml
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - conf/igenomes.config
+    - conf/igenomes_ignored.config
+
+template:
+  org: xiaoli-dong
+  name: qcflow
+  description: "NGS qc "
+  author: Xiaoli Dong
+  version: 1.0.0dev
+  force: true
+  outdir: ./qcflow
+  skip_features:
+    - igenomes
+    - multiqc
+    - gpu
+  is_nfcore: false
