@@ -50,7 +50,7 @@ Now, you can run the pipeline using:
 
 ```bash
 # running directly from github without downloading or cloning
-nextflow run xiaoli-dong/nf-qcflow -r revision_number(e.g:8657a20) --help
+nextflow run xiaoli-dong/nf-qcflow -r revision_number(e.g:bad4de0) --help
 ```
 
 > [!WARNING]
