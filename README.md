@@ -40,8 +40,6 @@ flub,./fastq/315_S122_L001_R1_001.fastq.gz,./fastq/315_S122_L001_R2_001.fastq.gz
 
 Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
 
--->
-
 Now, you can run the pipeline using:
 
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
