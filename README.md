@@ -45,7 +45,10 @@ Now, you can run the pipeline using:
 <!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
 
 ```bash
-# running directly from github without downloading or cloning
+#check command line options:
+nextflow run nf-qcflow/main.nf --help
+
+# example command to run the pipeline
 nextflow run nf-qcflow/main.nf -profile singularity --input samplesheet.csv --platform illumina --outdir results
 ```
 
