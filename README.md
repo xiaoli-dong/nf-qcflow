@@ -12,6 +12,7 @@ nf-qcflow supports both short and long reads:
   - dehost ([hostile](https://github.com/bede/hostile))
   - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
   - Short read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
+  - Tabular and html reports
 - Long reads quality check and quality control
   - Nanopore long read quality checks ([NanoPlot](https://github.com/wdecoster/NanoPlot))
   - Nanopore long read adapter trimming, quality and length filter (porechop+chopper | fastplong)
@@ -22,6 +23,7 @@ nf-qcflow supports both short and long reads:
   - dehost ([hostile](https://github.com/bede/hostile))
   - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
   - Nanopore long read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
+  - Tabular and html reports
 
 ## Quick start
 
