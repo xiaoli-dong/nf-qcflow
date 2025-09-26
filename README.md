@@ -5,23 +5,23 @@ nf-qcflow is a bioinformatics pipeline that can be used to do NGS sequence quali
 
 nf-qcflow supports both short and long reads:
 
-- Sequence quality check and quality control
-  - Short reads
-    - Short Illumina reads quality checks ([FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-    - Short read quality control ([BBDuk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) | [fastp](https://github.com/OpenGene/fastp))
-    - Short read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
-    - dehost ([hostile](https://github.com/bede/hostile))
-    - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
-  - Long reads
-    - Nanopore long read quality checks ([NanoPlot](https://github.com/wdecoster/NanoPlot))
-    - Nanopore long read adapter trimming, quality and length filter (porechop+chopper | fastplong)
-       - Porechop + Chopper 
-          - Nanopore long reads adapter removal ([Porechop](https://github.com/rrwick/Porechop))
-          - Nanopore long read quality and length filter ([chopper](https://github.com/wdecoster/chopper))
-      - Ultrafast preprocessing and quality control for long reads ([fastplong](https://github.com/OpenGene/fastplong))
-    - dehost ([hostile](https://github.com/bede/hostile))
-    - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
-    - Nanopore long read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
+
+- Short reads quality check and quality control
+  - Short Illumina reads quality checks ([FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
+  - Short read quality control ([BBDuk](https://jgi.doe.gov/data-and-tools/software-tools/bbtools/bb-tools-user-guide/bbduk-guide/) | [fastp](https://github.com/OpenGene/fastp))
+  - dehost ([hostile](https://github.com/bede/hostile))
+  - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
+  - Short read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
+- Long reads quality check and quality control
+  - Nanopore long read quality checks ([NanoPlot](https://github.com/wdecoster/NanoPlot))
+  - Nanopore long read adapter trimming, quality and length filter (porechop+chopper | fastplong)
+     - Porechop + Chopper 
+        - Nanopore long reads adapter removal ([Porechop](https://github.com/rrwick/Porechop))
+        - Nanopore long read quality and length filter ([chopper](https://github.com/wdecoster/chopper))
+    - Ultrafast preprocessing and quality control for long reads ([fastplong](https://github.com/OpenGene/fastplong))
+  - dehost ([hostile](https://github.com/bede/hostile))
+  - Taxonomic assignment and contamination check ([`Kraken2`](https://ccb.jhu.edu/software/kraken2/))
+  - Nanopore long read statistics ([seqkit stats](https://bioinf.shenwei.me/seqkit/usage/#stats))
 
 ## Quick start
 
