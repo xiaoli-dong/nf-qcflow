@@ -3,8 +3,12 @@
     IMPORT MODULES / SUBWORKFLOWS / FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+include { paramsSummaryMap } from 'plugin/nf-schema'
+include { paramsSummaryMultiqc } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_qcflow_pipeline'
+
+include { QC_NANOPORE } from '../subworkflows/local/qc_nanopore'
 include { QC_ILLUMINA } from '../subworkflows/local/qc_illumina'
 
 /*
@@ -13,17 +17,23 @@ include { QC_ILLUMINA } from '../subworkflows/local/qc_illumina'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow QCFLOW_ILLUMINA {
+workflow QCFLOW_HYBRID {
     take:
-    short_reads // channel: samplesheet read in from --input
+    short_reads
+    long_reads // channel: samplesheet read in from --input
 
     main:
 
     ch_versions = Channel.empty()
-    //short_reads.view()
-    QC_ILLUMINA(short_reads) 
-    ch_versions = ch_versions.mix(QC_ILLUMINA.out.versions)
+    short_reads.view()
+    long_reads.view()
+
     
+    QC_ILLUMINA(short_reads)
+    ch_versions = ch_versions.mix(QC_ILLUMINA.out.versions)
+
+    QC_NANOPORE(long_reads)
+    ch_versions = ch_versions.mix(QC_NANOPORE.out.versions)
     //
     // Collate and save software versions
     //

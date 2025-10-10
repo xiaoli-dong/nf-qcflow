@@ -40,7 +40,7 @@ include {
 
 workflow QC_NANOPORE {
     take:
-    reads
+    long_reads
 
     main:
 
@@ -48,8 +48,11 @@ workflow QC_NANOPORE {
     qc_reads = Channel.empty()
     ch_all_stats = Channel.empty()
 
-    reads = reads.filter { it[1][0].size() > 0 && it[1][0].countFastq() > 0 }
-
+    reads = long_reads.filter { meta, reads ->
+        def readsList = reads instanceof List ? reads : [reads]
+        readsList.size() > 0 && readsList.every { it != null && it.exists() && it.size() > 0 }
+    }
+    
     NANOPLOT_INPUT(reads)
     ch_versions = ch_versions.mix(NANOPLOT_INPUT.out.versions.first())
 
@@ -181,7 +184,7 @@ workflow QC_NANOPORE {
 
     ch_html_report_template = Channel.fromPath("${projectDir}/assets/html_report_template", checkIfExists: true)
 
-    HTML_COPYDIR(ch_html_report_template, "html_report")
+    HTML_COPYDIR(ch_html_report_template, "nanopore")
 
     HTML_DATATABLE_CSV2JSON_QCREPORT(CSVTK_CONCAT_REPORT.out.csv)
     ch_versions = ch_versions.mix(HTML_DATATABLE_CSV2JSON_QCREPORT.out.versions)

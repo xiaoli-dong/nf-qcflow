@@ -1,7 +1,6 @@
 process HOSTILE_CLEAN {
     tag "${meta.id}"
-    label 'process_low'
-
+label 'process_medium'
     conda "${moduleDir}/environment.yml"
     container "${workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container
         ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/4f/4f1e4558685117662053d37800dcf7a0d64d1f857e22c84900c379a16a04103c/data'

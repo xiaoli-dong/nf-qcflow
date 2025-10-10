@@ -18,6 +18,7 @@ include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_qcfl
 include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_qcflow_pipeline'
 include { QCFLOW_ILLUMINA } from './workflows/qcflow_illumina'
 include { QCFLOW_NANOPORE } from './workflows/qcflow_nanopore'
+include { QCFLOW_HYBRID } from './workflows/qcflow_hybrid'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE
@@ -30,7 +31,8 @@ include { QCFLOW_NANOPORE } from './workflows/qcflow_nanopore'
 workflow XIAOLIDONG_QCFLOW {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    short_reads // channel: samplesheet read in from --input
+    long_reads
 
     main:
 
@@ -41,11 +43,15 @@ workflow XIAOLIDONG_QCFLOW {
         samplesheet
     ) */
     if (params.platform == 'illumina'){
-        QCFLOW_ILLUMINA (samplesheet)
+        QCFLOW_ILLUMINA (short_reads)
         
     }
     else if (params.platform == 'nanopore') {
-        QCFLOW_NANOPORE (samplesheet)
+        QCFLOW_NANOPORE (long_reads)
+        
+    } 
+    else if (params.platform == 'hybrid') {
+        QCFLOW_HYBRID (short_reads, long_reads)
         
     } 
     
@@ -75,7 +81,8 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     XIAOLIDONG_QCFLOW (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.short_reads,
+        PIPELINE_INITIALISATION.out.long_reads
     )
     //
     // SUBWORKFLOW: Run completion tasks

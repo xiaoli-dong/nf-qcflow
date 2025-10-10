@@ -8,30 +8,57 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { UTILS_NFSCHEMA_PLUGIN     } from '../../nf-core/utils_nfschema_plugin'
-include { paramsSummaryMap          } from 'plugin/nf-schema'
-include { samplesheetToList         } from 'plugin/nf-schema'
-include { completionEmail           } from '../../nf-core/utils_nfcore_pipeline'
-include { completionSummary         } from '../../nf-core/utils_nfcore_pipeline'
-include { imNotification            } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NFCORE_PIPELINE     } from '../../nf-core/utils_nfcore_pipeline'
-include { UTILS_NEXTFLOW_PIPELINE   } from '../../nf-core/utils_nextflow_pipeline'
+include { UTILS_NFSCHEMA_PLUGIN } from '../../nf-core/utils_nfschema_plugin'
+include { paramsSummaryMap } from 'plugin/nf-schema'
+include { samplesheetToList } from 'plugin/nf-schema'
+include { completionEmail } from '../../nf-core/utils_nfcore_pipeline'
+include { completionSummary } from '../../nf-core/utils_nfcore_pipeline'
+include { imNotification } from '../../nf-core/utils_nfcore_pipeline'
+include { UTILS_NFCORE_PIPELINE } from '../../nf-core/utils_nfcore_pipeline'
+include { UTILS_NEXTFLOW_PIPELINE } from '../../nf-core/utils_nextflow_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUBWORKFLOW TO INITIALISE PIPELINE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+// Function to parse samplesheet
+def parse_samplesheet(samplesheet_path) {
+    def samples = []
+
+    file(samplesheet_path)
+        .readLines()
+        .drop(1)
+        .each { line ->
+            def fields = line.split(',')
+            def sample_id = fields[0]
+            def fastq_1 = fields[1] == 'NA' ? null : fields[1]
+            def fastq_2 = fields[2] == 'NA' ? null : fields[2]
+            def long_fastq = fields[3] == 'NA' ? null : fields[3]
+            def basecaller_mode = fields[4] == 'NA' ? null : fields[4]
+
+            samples.add(
+                [
+                    sample: sample_id,
+                    fastq_1: fastq_1,
+                    fastq_2: fastq_2,
+                    long_fastq: long_fastq,
+                    basecaller_mode: basecaller_mode,
+                ]
+            )
+        }
+
+    return samples
+}
 
 workflow PIPELINE_INITIALISATION {
-
     take:
-    version           // boolean: Display version and exit
-    validate_params   // boolean: Boolean whether to validate parameters against the schema at runtime
-    monochrome_logs   // boolean: Do not use coloured log outputs
+    version // boolean: Display version and exit
+    validate_params // boolean: Boolean whether to validate parameters against the schema at runtime
+    monochrome_logs // boolean: Do not use coloured log outputs
     nextflow_cli_args //   array: List of positional nextflow CLI args
-    outdir            //  string: The output directory where the results will be saved
-    input             //  string: Path to input samplesheet
+    outdir //  string: The output directory where the results will be saved
+    input //  string: Path to input samplesheet
 
     main:
 
@@ -40,26 +67,26 @@ workflow PIPELINE_INITIALISATION {
     //
     // Print version and exit if required and dump pipeline parameters to JSON file
     //
-    UTILS_NEXTFLOW_PIPELINE (
+    UTILS_NEXTFLOW_PIPELINE(
         version,
         true,
         outdir,
-        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1
+        workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1,
     )
 
     //
     // Validate parameters and generate parameter summary to stdout
     //
-    UTILS_NFSCHEMA_PLUGIN (
+    UTILS_NFSCHEMA_PLUGIN(
         workflow,
         validate_params,
-        null
+        null,
     )
 
     //
     // Check config provided to the pipeline
     //
-    UTILS_NFCORE_PIPELINE (
+    UTILS_NFCORE_PIPELINE(
         nextflow_cli_args
     )
 
@@ -67,7 +94,7 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    Channel
+    /*  Channel
         .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
         .map {
             meta, fastq_1, fastq_2 ->
@@ -86,10 +113,81 @@ workflow PIPELINE_INITIALISATION {
                 return [ meta, fastqs.flatten() ]
         }
         .set { ch_samplesheet }
+ */
+    // Read CSV, clean up NA values, and filter comments
+reads = Channel.fromPath(params.input)
+    .splitCsv(header: true, sep: ',')
+    .filter { row -> !row.sample.startsWith('#') }
+    .map { row ->
+        [
+            sample: row.sample,
+            fastq_1: row.fastq_1 == 'NA' ? null : row.fastq_1,
+            fastq_2: row.fastq_2 == 'NA' ? null : row.fastq_2,
+            long_fastq: row.long_fastq == 'NA' ? null : row.long_fastq,
+            basecaller_mode: row.basecaller_mode == 'NA' ? null : row.basecaller_mode
+        ]
+    }
+
+// Create channel for short reads only (where at least fastq_1 or fastq_2 is not null)
+short_reads = reads
+    .filter { it.fastq_1 != null || it.fastq_2 != null }
+    .map { row ->
+        def meta = [
+            id: row.sample,
+            single_end: row.fastq_2 == null
+        ]
+        def files = row.fastq_2 == null
+            ? [file(row.fastq_1)]
+            : [file(row.fastq_1), file(row.fastq_2)]
+        tuple(meta, files)
+    }
+
+// Create channel for long reads only (where long_fastq is not null)
+long_reads = reads
+    .filter { it.long_fastq != null }
+    .map { row ->
+        def meta = [
+            id: row.sample,
+            single_end: true,
+            basecaller_mode: row.basecaller_mode
+        ]
+        tuple(meta, file(row.long_fastq))
+    }
+short_reads.view()
+long_reads.view()
+
+
+    // Add this code after you create samplesheet_short in your PIPELINE_INITIALISATION workflow
+
+    // Convert samplesheet_short channel to CSV format
+   /*  samplesheet_short
+        .map { meta, reads ->
+            // Handle both single-end and paired-end reads
+            if (meta.single_end) {
+                // Single-end: sample,fastq_1,NA
+                return "${meta.id},${reads[0]},NA"
+            }
+            else {
+                // Paired-end: sample,fastq_1,fastq_2
+                return "${meta.id},${reads[0]},${reads[1]}"
+            }
+        }
+        .collectFile(
+            name: 'short_reads_samplesheet.csv',
+            newLine: true,
+            seed: 'sample,fastq_1,fastq_2',
+            storeDir: "${params.outdir}/samplesheets",
+        )
+        .set { ch_short_reads_csv } */
+
+    // Now ch_short_reads_csv contains the path to the generated CSV file
+    // You can use it as input to another workflow like this:
+    //ch_short_reads_csv.view { "Generated samplesheet: ${it}" }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    short_reads
+    long_reads
+    versions = ch_versions
 }
 
 /*
@@ -99,14 +197,13 @@ workflow PIPELINE_INITIALISATION {
 */
 
 workflow PIPELINE_COMPLETION {
-
     take:
-    email           //  string: email address
-    email_on_fail   //  string: email address sent on pipeline failure
+    email //  string: email address
+    email_on_fail //  string: email address sent on pipeline failure
     plaintext_email // boolean: Send plain-text email instead of HTML
-    outdir          //    path: Path to output directory where results will be published
+    outdir //    path: Path to output directory where results will be published
     monochrome_logs // boolean: Disable ANSI colour codes in log output
-    hook_url        //  string: hook URL for notifications
+    hook_url //  string: hook URL for notifications
 
     main:
     summary_params = paramsSummaryMap(workflow, parameters_schema: "nextflow_schema.json")
@@ -123,7 +220,7 @@ workflow PIPELINE_COMPLETION {
                 plaintext_email,
                 outdir,
                 monochrome_logs,
-                []
+                [],
             )
         }
 
@@ -134,7 +231,7 @@ workflow PIPELINE_COMPLETION {
     }
 
     workflow.onError {
-        log.error "Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting"
+        log.error("Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting")
     }
 }
 
@@ -151,12 +248,12 @@ def validateInputSamplesheet(input) {
     def (metas, fastqs) = input[1..2]
 
     // Check that multiple runs of the same sample are of the same datatype i.e. single-end / paired-end
-    def endedness_ok = metas.collect{ meta -> meta.single_end }.unique().size == 1
+    def endedness_ok = metas.collect { meta -> meta.single_end }.unique().size == 1
     if (!endedness_ok) {
         error("Please check input samplesheet -> Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: ${metas[0].id}")
     }
 
-    return [ metas[0], fastqs ]
+    return [metas[0], fastqs]
 }
 //
 // Generate methods description for MultiQC
@@ -166,10 +263,10 @@ def toolCitationText() {
     // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
     // Uncomment function in methodsDescriptionText to render in MultiQC report
     def citation_text = [
-            "Tools used in the workflow included:",
-            "FastQC (Andrews 2010),",
-            "."
-        ].join(' ').trim()
+        "Tools used in the workflow included:",
+        "FastQC (Andrews 2010),",
+        ".",
+    ].join(' ').trim()
 
     return citation_text
 }
@@ -179,8 +276,8 @@ def toolBibliographyText() {
     // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
     // Uncomment function in methodsDescriptionText to render in MultiQC report
     def reference_text = [
-            "<li>Andrews S, (2010) FastQC, URL: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).</li>",
-        ].join(' ').trim()
+        "<li>Andrews S, (2010) FastQC, URL: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/).</li>"
+    ].join(' ').trim()
 
     return reference_text
 }
@@ -202,7 +299,10 @@ def methodsDescriptionText(mqc_methods_yaml) {
             temp_doi_ref += "(doi: <a href=\'https://doi.org/${doi_ref.replace("https://doi.org/", "").replace(" ", "")}\'>${doi_ref.replace("https://doi.org/", "").replace(" ", "")}</a>), "
         }
         meta["doi_text"] = temp_doi_ref.substring(0, temp_doi_ref.length() - 2)
-    } else meta["doi_text"] = ""
+    }
+    else {
+        meta["doi_text"] = ""
+    }
     meta["nodoi_text"] = meta.manifest_map.doi ? "" : "<li>If available, make sure to update the text to include the Zenodo DOI of version of the pipeline used. </li>"
 
     // Tool references
@@ -216,7 +316,7 @@ def methodsDescriptionText(mqc_methods_yaml) {
 
     def methods_text = mqc_methods_yaml.text
 
-    def engine =  new groovy.text.SimpleTemplateEngine()
+    def engine = new groovy.text.SimpleTemplateEngine()
     def description_html = engine.createTemplate(methods_text).make(meta)
 
     return description_html.toString()
