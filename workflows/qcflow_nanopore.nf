@@ -10,6 +10,9 @@ include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_qcfl
 
 include { QC_NANOPORE } from '../subworkflows/local/qc_nanopore'
 
+include { PUBLISH_LONGREADS } from '../modules/local/publish/longreads'
+include { PUBLISH_SAMPLESHEET } from '../modules/local/publish/samplesheet/main.nf'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RUN MAIN WORKFLOW
@@ -24,12 +27,26 @@ workflow QCFLOW_NANOPORE {
 
     ch_versions = Channel.empty()
     ch_samplesheet.view()
-    
+
     QC_NANOPORE(
             ch_samplesheet,
     )
-    QC_NANOPORE.out.versions.view()
+    //QC_NANOPORE.out.versions.view()
     ch_versions = ch_versions.mix(QC_NANOPORE.out.versions)
+    // Publish reads (only if channels have data)
+    PUBLISH_LONGREADS(QC_NANOPORE.out.qc_reads)
+    long_reads_collected = PUBLISH_LONGREADS.out.reads
+        .collect()
+        .ifEmpty([])
+        .map { it.collate(2) }
+        //.first()
+
+    // Generate samplesheet
+    PUBLISH_SAMPLESHEET(
+        Channel.value([]),
+        long_reads_collected
+    )
+
     //
     // Collate and save software versions
     //
@@ -42,7 +59,7 @@ workflow QCFLOW_NANOPORE {
         )
 
 
-    
+
     emit:
     versions       = ch_versions                 // channel: [ path(versions.yml) ]
 

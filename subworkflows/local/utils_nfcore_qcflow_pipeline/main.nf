@@ -94,73 +94,68 @@ workflow PIPELINE_INITIALISATION {
     // Create channel from input file provided through params.input
     //
 
-    /*  Channel
-        .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
-        .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
-                }
+    // Read and parse samplesheet with duplicate validation
+    def seen_samples = [] as Set
+
+    reads = Channel.fromPath(params.input)
+        .splitText()
+        .filter { line -> !line.trim().startsWith('#') && line.trim() != '' }
+        .collect()
+        .map { lines -> lines.join('\n') }
+        .splitCsv(header: true, sep: ',')
+        .map { row ->
+            // Skip rows where sample column starts with #
+            if (row.sample.startsWith('#')) {
+                return null
+            }
+
+            // Check for duplicate sample IDs
+            if (seen_samples.contains(row.sample)) {
+                error("ERROR: Duplicate sample ID found in samplesheet: '${row.sample}'\n" +
+                      "Each sample ID must be unique!\n" +
+                      "Please check your input samplesheet: ${params.input}")
+            }
+            seen_samples.add(row.sample)
+
+            // Return parsed row
+            [
+                sample: row.sample,
+                fastq_1: row.fastq_1 == 'NA' ? null : row.fastq_1,
+                fastq_2: row.fastq_2 == 'NA' ? null : row.fastq_2,
+                long_fastq: row.long_fastq == 'NA' ? null : row.long_fastq,
+                basecaller_mode: row.basecaller_mode == 'NA' ? null : row.basecaller_mode,
+            ]
         }
-        .groupTuple()
-        .map { samplesheet ->
-            validateInputSamplesheet(samplesheet)
+        .filter { it != null }
+
+    // Create channel for short reads only (where at least fastq_1 or fastq_2 is not null)
+    short_reads = reads
+        .filter { it.fastq_1 != null || it.fastq_2 != null }
+        .map { row ->
+            def meta = [
+                id: row.sample,
+                single_end: row.fastq_2 == null,
+            ]
+            def files = row.fastq_2 == null
+                ? [file(row.fastq_1)]
+                : [file(row.fastq_1), file(row.fastq_2)]
+            tuple(meta, files)
         }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
+
+    // Create channel for long reads only (where long_fastq is not null)
+    long_reads = reads
+        .filter { it.long_fastq != null }
+        .map { row ->
+            def meta = [
+                id: row.sample,
+                single_end: true,
+                basecaller_mode: row.basecaller_mode,
+            ]
+            tuple(meta, file(row.long_fastq))
         }
-        .set { ch_samplesheet }
- */
-    // Read CSV, clean up NA values, and filter comments
-reads = Channel.fromPath(params.input)
-    .splitCsv(header: true, sep: ',')
-    .filter { row -> !row.sample.startsWith('#') }
-    .map { row ->
-        [
-            sample: row.sample,
-            fastq_1: row.fastq_1 == 'NA' ? null : row.fastq_1,
-            fastq_2: row.fastq_2 == 'NA' ? null : row.fastq_2,
-            long_fastq: row.long_fastq == 'NA' ? null : row.long_fastq,
-            basecaller_mode: row.basecaller_mode == 'NA' ? null : row.basecaller_mode
-        ]
-    }
-
-// Create channel for short reads only (where at least fastq_1 or fastq_2 is not null)
-short_reads = reads
-    .filter { it.fastq_1 != null || it.fastq_2 != null }
-    .map { row ->
-        def meta = [
-            id: row.sample,
-            single_end: row.fastq_2 == null
-        ]
-        def files = row.fastq_2 == null
-            ? [file(row.fastq_1)]
-            : [file(row.fastq_1), file(row.fastq_2)]
-        tuple(meta, files)
-    }
-
-// Create channel for long reads only (where long_fastq is not null)
-long_reads = reads
-    .filter { it.long_fastq != null }
-    .map { row ->
-        def meta = [
-            id: row.sample,
-            single_end: true,
-            basecaller_mode: row.basecaller_mode
-        ]
-        tuple(meta, file(row.long_fastq))
-    }
-short_reads.view()
-long_reads.view()
-
-
-    // Add this code after you create samplesheet_short in your PIPELINE_INITIALISATION workflow
 
     // Convert samplesheet_short channel to CSV format
-   /*  samplesheet_short
+    short_reads
         .map { meta, reads ->
             // Handle both single-end and paired-end reads
             if (meta.single_end) {
@@ -178,11 +173,10 @@ long_reads.view()
             seed: 'sample,fastq_1,fastq_2',
             storeDir: "${params.outdir}/samplesheets",
         )
-        .set { ch_short_reads_csv } */
+        .set { ch_short_reads_csv }
 
-    // Now ch_short_reads_csv contains the path to the generated CSV file
-    // You can use it as input to another workflow like this:
-    //ch_short_reads_csv.view { "Generated samplesheet: ${it}" }
+    // Log the generated samplesheet
+    ch_short_reads_csv.view { "Generated samplesheet: ${it}" }
 
     emit:
     short_reads

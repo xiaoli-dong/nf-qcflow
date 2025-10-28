@@ -17,8 +17,8 @@ include {
 } from '../../modules/local/seqkit/stats/main'
 
 include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
-include { BRACKEN_BRACKEN } from '../../modules/nf-core/bracken/bracken/main'     
-include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/nf-core/bracken/combinebrackenoutputs/main' 
+include { BRACKEN_BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
+include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/nf-core/bracken/combinebrackenoutputs/main'
 include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
 
 
@@ -52,7 +52,7 @@ workflow QC_NANOPORE {
         def readsList = reads instanceof List ? reads : [reads]
         readsList.size() > 0 && readsList.every { it != null && it.exists() && it.size() > 0 }
     }
-    
+
     NANOPLOT_INPUT(reads)
     ch_versions = ch_versions.mix(NANOPLOT_INPUT.out.versions.first())
 
@@ -143,7 +143,7 @@ workflow QC_NANOPORE {
 
     //merged input, trimmed, and dehost stats into one columns
     // qc_summary.py
-    ch_all_stats.view()
+    //ch_all_stats.view()
 
     KRAKEN2_KRAKEN2(qc_reads, params.kraken2_db, false, true)
     ch_versions = ch_versions.mix(KRAKEN2_KRAKEN2.out.versions)
@@ -157,7 +157,7 @@ workflow QC_NANOPORE {
             .map { csvs -> tuple([id: "reads.topmatches"], csvs)
         }, 'csv', 'csv'
     )
-        
+
     ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
         .map{
             meta, report -> report

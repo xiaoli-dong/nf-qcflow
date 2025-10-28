@@ -5,10 +5,14 @@ include {
     FASTQC as FASTQC_DEHOST
 } from '../../modules/nf-core/fastqc/main'
 
-include { BBMAP_BBDUK } from '../../modules/nf-core/bbmap/bbduk/main'
-
+include { BBMAP_BBDUK } from '../../modules/local/bbmap/bbduk/main'
 include { FASTP } from '../../modules/nf-core/fastp/main.nf'
-
+include { HOSTILE_CLEAN as HOSTILE_CLEAN_ILLUMINA } from '../../modules/local/hostile/clean/main.nf'
+include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
+include { BRACKEN_BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
+include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/nf-core/bracken/combinebrackenoutputs/main'
+include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
+include { REPORT_QCSUMMARY } from '../../modules/local/report/qcsummary/main'
 include {
     SEQKIT_STATS as SEQKIT_STATS_INPUT ;
     SEQKIT_STATS as SEQKIT_STATS_TRIMMED_WITH_BBDUK ;
@@ -17,33 +21,22 @@ include {
 } from '../../modules/local/seqkit/stats/main.nf'
 
 include { HTML_COPYDIR } from '../../modules/local/html/copydir/main.nf'
-
 include {
     HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_QCREPORT ;
     HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_TOPMATCHES
 } from '../../modules/local/html/datatable/csv2json/main.nf'
-
-
 include {
     CSVTK_CONCAT as CSVTK_CONCAT_REPORT ;
     CSVTK_CONCAT as CSVTK_CONCAT_TOPMATCHES
 } from '../../modules/nf-core/csvtk/concat/main.nf'
 
-include { HOSTILE_CLEAN as HOSTILE_CLEAN_ILLUMINA } from '../../modules/local/hostile/clean/main.nf'
-
-include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
-include { BRACKEN_BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
-include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/nf-core/bracken/combinebrackenoutputs/main'
-include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
-
-include { REPORT_QCSUMMARY } from '../../modules/local/report/qcsummary/main'
 workflow QC_ILLUMINA {
     take:
     short_reads
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_software_versions = Channel.empty()
 
     trimmed_reads = short_reads
     qc_reads = short_reads
@@ -53,15 +46,15 @@ workflow QC_ILLUMINA {
         def readsList = reads instanceof List ? reads : [reads]
         readsList.size() > 0 && readsList.every { it != null && it.exists() && it.size() > 0 }
     }
-    
+
     //short_reads.filter { it[1][0].size() > 0 && it[1][0].countFastq() > 0 }
     FASTQC_INPUT(short_reads)
-    ch_versions = ch_versions.mix(FASTQC_INPUT.out.versions.first())
+    ch_software_versions = ch_software_versions.mix(FASTQC_INPUT.out.versions.first())
 
 
     SEQKIT_STATS_INPUT(short_reads)
     ch_input_to_qc_summary = SEQKIT_STATS_INPUT.out.stats
-    ch_versions = ch_versions.mix(SEQKIT_STATS_INPUT.out.versions.first())
+    ch_software_versions = ch_software_versions.mix(SEQKIT_STATS_INPUT.out.versions.first())
 
 
     qc_stats = Channel.empty()
@@ -69,7 +62,7 @@ workflow QC_ILLUMINA {
     //default
     if (params.illumina_reads_qc_tool == 'bbduk') {
         BBMAP_BBDUK(short_reads, [])
-        ch_versions = ch_versions.mix(BBMAP_BBDUK.out.versions.first())
+        ch_software_versions = ch_software_versions.mix(BBMAP_BBDUK.out.versions.first())
         //get rid of zero size contig file and avoid the downstream crash
         BBMAP_BBDUK.out.reads
             .filter { it[1][0].size() > 0 && it[1][0].countFastq() > 0 }
@@ -88,7 +81,7 @@ workflow QC_ILLUMINA {
         discard_trimmed_pass = false
         save_merged = false
         FASTP(short_reads, [], discard_trimmed_pass, save_trimmed_fail, save_merged)
-        ch_versions = ch_versions.mix(FASTP.out.versions.first())
+        ch_software_versions = ch_software_versions.mix(FASTP.out.versions.first())
         //get rid of zero size contig file and avoid the downstream crash
 
         FASTP.out.reads
@@ -113,7 +106,7 @@ workflow QC_ILLUMINA {
     if (!params.skip_dehost) {
 
         HOSTILE_CLEAN_ILLUMINA(trimmed_reads, [params.hostile_ref_name_illumina, params.hostile_ref_dir])
-        ch_versions = ch_versions.mix(HOSTILE_CLEAN_ILLUMINA.out.versions.first())
+        ch_software_versions = ch_software_versions.mix(HOSTILE_CLEAN_ILLUMINA.out.versions.first())
         HOSTILE_CLEAN_ILLUMINA.out.fastq
             .filter { meta, reads ->
                 def readsList = reads instanceof List ? reads : [reads]
@@ -136,7 +129,7 @@ workflow QC_ILLUMINA {
         false,
         true,
     )
-    ch_versions = ch_versions.mix(KRAKEN2_KRAKEN2.out.versions)
+    ch_software_versions = ch_software_versions.mix(KRAKEN2_KRAKEN2.out.versions)
 
     BRACKEN_BRACKEN(KRAKEN2_KRAKEN2.out.report, params.kraken2_db)
     BRACKEN_GETTOPMATCHES(BRACKEN_BRACKEN.out.reports)
@@ -157,10 +150,10 @@ workflow QC_ILLUMINA {
             tuple([id: "reads_illumina_bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
-    ch_versions = ch_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
+    ch_software_versions = ch_software_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
 
     REPORT_QCSUMMARY(ch_input_to_qc_summary)
-    ch_versions = ch_versions.mix(REPORT_QCSUMMARY.out.versions)
+    ch_software_versions = ch_software_versions.mix(REPORT_QCSUMMARY.out.versions)
 
     CSVTK_CONCAT_REPORT(
         REPORT_QCSUMMARY.out.csv.map { it ->
@@ -171,21 +164,21 @@ workflow QC_ILLUMINA {
         'csv',
         'csv',
     )
-    ch_versions = ch_versions.mix(CSVTK_CONCAT_REPORT.out.versions)
+    ch_software_versions = ch_software_versions.mix(CSVTK_CONCAT_REPORT.out.versions)
 
     ch_html_report_template = Channel.fromPath("${projectDir}/assets/html_report_template", checkIfExists: true)
 
     HTML_COPYDIR(ch_html_report_template, "illumina")
 
     HTML_DATATABLE_CSV2JSON_QCREPORT(CSVTK_CONCAT_REPORT.out.csv)
-    ch_versions = ch_versions.mix(HTML_DATATABLE_CSV2JSON_QCREPORT.out.versions)
+    ch_software_versions = ch_software_versions.mix(HTML_DATATABLE_CSV2JSON_QCREPORT.out.versions)
 
     HTML_DATATABLE_CSV2JSON_TOPMATCHES(CSVTK_CONCAT_TOPMATCHES.out.csv)
-    ch_versions = ch_versions.mix(HTML_DATATABLE_CSV2JSON_TOPMATCHES.out.versions)
+    ch_software_versions = ch_software_versions.mix(HTML_DATATABLE_CSV2JSON_TOPMATCHES.out.versions)
 
     emit:
     input_stats = SEQKIT_STATS_INPUT.out.stats
     qc_reads
     qc_stats
-    versions = ch_versions
+    versions = ch_software_versions
 }

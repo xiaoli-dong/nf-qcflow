@@ -28,7 +28,7 @@ include { QCFLOW_HYBRID } from './workflows/qcflow_hybrid'
 //
 // WORKFLOW: Run main analysis pipeline depending on type of input
 //
-workflow XIAOLIDONG_QCFLOW {
+workflow ABPROVLAB_QCFLOW {
 
     take:
     short_reads // channel: samplesheet read in from --input
@@ -39,22 +39,20 @@ workflow XIAOLIDONG_QCFLOW {
     //
     // WORKFLOW: Run pipeline
     //
-    /* QCFLOW (
-        samplesheet
-    ) */
+
     if (params.platform == 'illumina'){
         QCFLOW_ILLUMINA (short_reads)
-        
+
     }
     else if (params.platform == 'nanopore') {
         QCFLOW_NANOPORE (long_reads)
-        
-    } 
+
+    }
     else if (params.platform == 'hybrid') {
         QCFLOW_HYBRID (short_reads, long_reads)
-        
-    } 
-    
+
+    }
+
 }
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +78,7 @@ workflow {
     //
     // WORKFLOW: Run main workflow
     //
-    XIAOLIDONG_QCFLOW (
+    ABPROVLAB_QCFLOW (
         PIPELINE_INITIALISATION.out.short_reads,
         PIPELINE_INITIALISATION.out.long_reads
     )
