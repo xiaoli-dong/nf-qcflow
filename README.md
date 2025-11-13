@@ -90,5 +90,33 @@ nextflow run nf-qcflow/main.nf \
 
 >* Notes: Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
+## nf-qcflow command-line options
+
+### Input / output options:
+
+```
+--input <string>    # Path to a CSV file containing sample information
+--outdir <string>   # Output directory for results. Must be an absolute path on cloud storage
+```
+### general parameters
+
+```
+--platform <string>             # Default: illumina
+--skip_dehost                   # Boolean flag
+--hostile_ref_dir <string>      # Default: /your_path/hostile2
+--kraken2_db <string>           # Default: /your_path/kraken2/k2_standard_16gb_20250402
+--short_qc_tool <string>        # Default: fastp
+--long_qc_tool <string>         # Default: fastplong
+--contaminants_fa <string>
+--publish_dir_mode <string>     # Default: copy
+--dehoster <string>             # Default: deacon
+--deacon_refdb <string>         # Default: /your_path/deacon/v3/panhuman-1.k31w15.idx
+--hostile_refdb_short <string>  # Default: human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401
+--hostile_refdb_long <string>   # Default: human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.mmi
+--help [boolean|string]         # Show help for all top-level parameters. Providing a parameter prints full help.
+--help_full                     # Show help for all non-hidden parameters
+--show_hidden                   # Show hidden parameters (use with --help or --help_full)
+```
+
 ## Credits
 xiaoli-dong/qcflow was originally written by Xiaoli Dong.
