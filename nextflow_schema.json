@@ -84,21 +84,13 @@
             "type": "string",
             "default": "/nfs/APL_Genomics/db/prod/kraken2/k2_standard_16gb_20250402"
         },
-        "illumina_reads_qc_tool": {
+        "short_qc_tool": {
             "type": "string",
             "default": "fastp"
         },
-        "hostile_ref_name_illumina": {
-            "type": "string",
-            "default": "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401"
-        },
-        "nanopore_reads_qc_tool": {
+        "long_qc_tool": {
             "type": "string",
             "default": "fastplong"
-        },
-        "hostile_ref_name_nanopore": {
-            "type": "string",
-            "default": "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.mmi"
         },
         "contaminants_fa": {
             "type": "string"
@@ -145,6 +137,22 @@
         },
         "config_profile_url": {
             "type": "string"
+        },
+        "dehoster": {
+            "type": "string",
+            "default": "deacon"
+        },
+        "deacon_refdb": {
+            "type": "string",
+            "default": "/nfs/APL_Genomics/db/prod/deacon/v3/panhuman-1.k31w15.idx"
+        },
+        "hostile_refdb_short": {
+            "type": "string",
+            "default": "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401"
+        },
+        "hostile_refdb_long": {
+            "type": "string",
+            "default": "human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.mmi"
         }
     }
 }

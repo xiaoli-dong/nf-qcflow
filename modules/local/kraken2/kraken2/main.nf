@@ -4,8 +4,8 @@ process KRAKEN2_KRAKEN2 {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/kraken2%3A2.1.5--pl5321h077b44d_0' :
-        'biocontainers/kraken2:2.1.5--pl5321h077b44d_0' }"
+        'https://depot.galaxyproject.org/singularity/kraken2:2.1.6--pl5321h077b44d_0' :
+        'biocontainers/kraken2:2.1.6--pl5321h077b44d_0' }"
 
     input:
     tuple val(meta), path(reads)
@@ -34,12 +34,15 @@ process KRAKEN2_KRAKEN2 {
     def readclassification_option = save_reads_assignment ? "--output ${prefix}.kraken2.classifiedreads.txt" : "--output /dev/null"
     //def compress_reads_command = save_output_fastqs ? "pigz -p $task.cpus *.fastq" : ""
 
+    // ✅ Detect gzip compression from file extension
+    def gzip_flag = reads.any { it.name.endsWith('.gz') } ? "--gzip-compressed" : ""
+
     """
     kraken2 \\
         --db $db \\
         --threads $task.cpus \\
         --report ${prefix}.kraken2_kreport.txt \\
-        --gzip-compressed \\
+        ${gzip_flag} \\
         $unclassified_option \\
         $classified_option \\
         $readclassification_option \\

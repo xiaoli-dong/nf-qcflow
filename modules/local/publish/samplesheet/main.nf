@@ -13,7 +13,7 @@ process PUBLISH_SAMPLESHEET {
     def short_reads_map = [:]
     def long_reads_map = [:]
     def prefix = task.ext.prefix ?: ""
-    outdir_abs_path = file(params.outdir).toAbsolutePath().toString() + "/samplesheets"
+    outdir_abs_path = file(params.outdir).toAbsolutePath().toString() + "/qcreads"
     // Parse short reads
     if (short_reads_list && short_reads_list instanceof List) {
         short_reads_list.each { item ->
@@ -72,7 +72,10 @@ process PUBLISH_SAMPLESHEET {
         def long_fastq = long_data?.long_fastq ?: "NA"
         def basecaller_mode = long_data?.basecaller_mode ?: "NA"
 
-        rows << "${sample_id},${ outdir_abs_path}/${fastq_1},${ outdir_abs_path}/${fastq_2},${ outdir_abs_path}/${long_fastq},${basecaller_mode}"
+        def output_fastq_1 = (fastq_1 != 'NA') ? "${outdir_abs_path}/${fastq_1}" : 'NA'
+        def output_fastq_2 = (fastq_2 != 'NA') ? "${outdir_abs_path}/${fastq_2}" : 'NA'
+        def output_long_fastq = (long_fastq != 'NA') ? "${outdir_abs_path}/${long_fastq}" : 'NA'
+        rows << "${sample_id},${output_fastq_1},${output_fastq_2},${output_long_fastq},${basecaller_mode}"
     }
 
     // Write samplesheet to output

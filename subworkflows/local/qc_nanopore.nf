@@ -1,12 +1,13 @@
 include {
     NANOPLOT as NANOPLOT_INPUT ;
     NANOPLOT as NANOPLOT_QC
-} from '../../modules/nf-core/nanoplot/main'
+} from '../../modules/local/nanoplot/main'
 
-include { PORECHOP_PORECHOP } from '../../modules/nf-core/porechop/porechop/main.nf'
-include { CHOPPER } from '../../modules/nf-core/chopper/main.nf'
-include { FASTPLONG } from '../../modules/nf-core/fastplong/main.nf'
+include { PORECHOP_PORECHOP } from '../../modules/local/porechop/porechop/main.nf'
+include { CHOPPER } from '../../modules/local/chopper/main.nf'
+include { FASTPLONG } from '../../modules/local/fastplong/main.nf'
 include { HOSTILE_CLEAN as HOSTILE_CLEAN_NANOPORE } from '../../modules/local/hostile/clean/main'
+include { DEACON_FILTER as DEACON_FILTER_NANOPORE } from '../../modules/local/deacon/filter/main'
 
 include {
     SEQKIT_STATS as SEQKIT_STATS_INPUT ;
@@ -17,23 +18,23 @@ include {
 } from '../../modules/local/seqkit/stats/main'
 
 include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
-include { BRACKEN_BRACKEN } from '../../modules/nf-core/bracken/bracken/main'
-include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/nf-core/bracken/combinebrackenoutputs/main'
+include { BRACKEN_BRACKEN } from '../../modules/local/bracken/bracken/main'
+include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/local/bracken/combinebrackenoutputs/main'
 include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
 
 
 include { REPORT_QCSUMMARY } from '../../modules/local/report/qcsummary/main'
 include {
-    CSVTK_CONCAT as CSVTK_CONCAT_REPORT;
-    CSVTK_CONCAT as CSVTK_CONCAT_TOPMATCHES;
-} from '../../modules/nf-core/csvtk/concat/main.nf'
+    CSVTK_CONCAT as CSVTK_CONCAT_REPORT ;
+    CSVTK_CONCAT as CSVTK_CONCAT_TOPMATCHES
+} from '../../modules/local/csvtk/concat/main.nf'
 
-//include { CSVTK_CONCAT } from '../../modules/nf-core/csvtk/concat/main.nf'
+//include { CSVTK_CONCAT } from '../../modules/local/csvtk/concat/main.nf'
 include { HTML_COPYDIR } from '../../modules/local/html/copydir/main.nf'
 
 include {
-    HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_QCREPORT;
-    HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_TOPMATCHES;
+    HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_QCREPORT ;
+    HTML_DATATABLE_CSV2JSON as HTML_DATATABLE_CSV2JSON_TOPMATCHES
 } from '../../modules/local/html/datatable/csv2json/main.nf'
 
 
@@ -44,9 +45,9 @@ workflow QC_NANOPORE {
 
     main:
 
-    ch_versions = Channel.empty()
-    qc_reads = Channel.empty()
-    ch_all_stats = Channel.empty()
+    ch_versions = channel.empty()
+    ch_all_stats = channel.empty()
+    qc_reads =  long_reads
 
     reads = long_reads.filter { meta, reads ->
         def readsList = reads instanceof List ? reads : [reads]
@@ -61,7 +62,7 @@ workflow QC_NANOPORE {
     ch_versions = ch_versions.mix(SEQKIT_STATS_INPUT.out.versions.first())
 
     // QC
-    if (params.nanopore_reads_qc_tool == 'FASTPLONG') {
+    if (params.long_qc_tool == 'FASTPLONG') {
         discard_trimmed_pass = false
         save_trimmed_fail = false
 
@@ -128,17 +129,41 @@ workflow QC_NANOPORE {
     }
 
     if (!params.skip_dehost) {
-        HOSTILE_CLEAN_NANOPORE(qc_reads, [params.hostile_ref_name_nanopore, params.hostile_ref_dir])
-        ch_versions = ch_versions.mix(HOSTILE_CLEAN_NANOPORE.out.versions.first())
 
-        HOSTILE_CLEAN_NANOPORE.out.fastq
-            .filter { meta, reads -> reads.size() > 0 && reads.countFastq() > 0 }
-            .set { qc_reads }
+        if (params.dehoster == 'hostile') {
+            HOSTILE_CLEAN_NANOPORE(qc_reads, [params. hostile_refdb_long, params.hostile_ref_dir])
+            ch_versions = ch_versions.mix(HOSTILE_CLEAN_NANOPORE.out.versions.first())
 
-        SEQKIT_STATS_DEHOST(qc_reads)
-        qc_stats = SEQKIT_STATS_DEHOST.out.stats
-        ch_all_stats = ch_all_stats.join(qc_stats)
-        ch_versions = ch_versions.mix(SEQKIT_STATS_DEHOST.out.versions.first())
+            HOSTILE_CLEAN_NANOPORE.out.fastq
+                .filter { meta, reads -> reads.size() > 0 && reads.countFastq() > 0 }
+                .set { qc_reads }
+
+            SEQKIT_STATS_DEHOST(qc_reads)
+            qc_stats = SEQKIT_STATS_DEHOST.out.stats
+            ch_all_stats = ch_all_stats.join(qc_stats)
+            ch_versions = ch_versions.mix(SEQKIT_STATS_DEHOST.out.versions.first())
+        }
+        else if (params.dehoster == 'deacon') {
+
+            DEACON_FILTER_NANOPORE(
+                qc_reads.map{meta, reads -> [meta, params.deacon_refdb, reads]}
+            )
+            ch_versions = ch_versions.mix(DEACON_FILTER_NANOPORE.out.versions.first())
+
+           /*  DEACON_FILTER_NANOPORE.out.fastq_filtered
+                .filter { meta, reads -> reads.size() > 0 && reads.countFastq() > 0 }
+                .set { qc_reads }
+ */
+            qc_reads = DEACON_FILTER_NANOPORE.out.fastq_filtered.filter { meta, reads ->
+                def readsList = reads instanceof List ? reads : [reads]
+                readsList.size() > 0 && readsList.every { it != null && it.exists() && it.size() > 0 }
+            }
+
+            SEQKIT_STATS_DEHOST(qc_reads)
+            qc_stats = SEQKIT_STATS_DEHOST.out.stats
+            ch_all_stats = ch_all_stats.join(qc_stats)
+            ch_versions = ch_versions.mix(SEQKIT_STATS_DEHOST.out.versions.first())
+        }
     }
 
     //merged input, trimmed, and dehost stats into one columns
@@ -151,20 +176,20 @@ workflow QC_NANOPORE {
     BRACKEN_BRACKEN(KRAKEN2_KRAKEN2.out.report, params.kraken2_db)
     BRACKEN_GETTOPMATCHES(BRACKEN_BRACKEN.out.reports)
     CSVTK_CONCAT_TOPMATCHES(
-        BRACKEN_GETTOPMATCHES.out.csv
-            .map { meta, csv -> csv }
-            .collect()
-            .map { csvs -> tuple([id: "reads.topmatches"], csvs)
-        }, 'csv', 'csv'
+        BRACKEN_GETTOPMATCHES.out.csv.map { meta, csv -> csv }.collect().map { csvs ->
+            tuple([id: "reads.topmatches"], csvs)
+        },
+        'csv',
+        'csv',
     )
 
     ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
-        .map{
-            meta, report -> report
+        .map { meta, report ->
+            report
         }
         .collect()
-        .map{
-            reports -> tuple([id:"reads_nanopore_bracken_report"], reports)
+        .map { reports ->
+            tuple([id: "reads_nanopore_bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
     ch_versions = ch_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
@@ -182,7 +207,7 @@ workflow QC_NANOPORE {
     )
     ch_versions = ch_versions.mix(CSVTK_CONCAT_REPORT.out.versions)
 
-    ch_html_report_template = Channel.fromPath("${projectDir}/assets/html_report_template", checkIfExists: true)
+    ch_html_report_template = channel.fromPath("${projectDir}/assets/html_report_template", checkIfExists: true)
 
     HTML_COPYDIR(ch_html_report_template, "nanopore")
 
