@@ -62,7 +62,7 @@ workflow QC_NANOPORE {
     ch_versions = ch_versions.mix(SEQKIT_STATS_INPUT.out.versions.first())
 
     // QC
-    if (params.long_qc_tool == 'FASTPLONG') {
+    if (params.long_qc_tool == 'fastplong') {
         discard_trimmed_pass = false
         save_trimmed_fail = false
 
@@ -93,7 +93,7 @@ workflow QC_NANOPORE {
         qc_stats = SEQKIT_STATS_FASTPLONG.out.stats
         ch_all_stats = ch_all_stats.join(qc_stats)
     }
-    else {
+    else if(params.long_qc_tool == 'porechop+chopper') {
         PORECHOP_PORECHOP(reads)
         ch_versions = ch_versions.mix(PORECHOP_PORECHOP.out.versions.first())
         PORECHOP_PORECHOP.out.reads

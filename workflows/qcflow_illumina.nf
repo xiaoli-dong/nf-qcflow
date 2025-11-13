@@ -47,7 +47,7 @@ workflow QCFLOW_ILLUMINA {
     //
     softwareVersionsToYAML(ch_versions).collectFile(
         storeDir: "${params.outdir}/pipeline_info",
-        name: 'seqsweep_software_' + 'mqc_' + 'versions.yml',
+        name: 'nf-qcflow_software_' + 'mqc_' + 'versions.yml',
         sort: true,
         newLine: true,
     )
