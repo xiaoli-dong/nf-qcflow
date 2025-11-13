@@ -39,29 +39,22 @@ nextflow run xiaoli-dong/nf-qcflow -r revision_number(e.g:04b8745) --help
 ### Prepare required samplesheet input
 The nf-qcflow pipeline requires user to provide a csv format samplesheet, which contains the sequenence information for each sample, as input. See below for what the samplesheet looks like:
 
-`samplesheet.csv` for paired-end data:
+`samplesheet.csv`
 
 ```csv
-sample,fastq_1,fastq_2
-sample1,./fastq/3_S3_L001_R1_001.fastq.gz,./fastq/3_S3_L001_R2_001.fastq.gz
-sample2,./fastq/78_S30_L001_R1.fastq.gz,./fastq/78_S30_L001_R2.fastq.gz
-measle,./fastq/47_S47_L001_R1_001.fastq.gz,./fastq/47_S47_L001_R2_001.fastq.gz
-flua,./fastq/30_S30_L001_R1_001.fastq.gz,./fastq/30_S30_L001_R2_001.fastq.gz
-flub,./fastq/315_S122_L001_R1_001.fastq.gz,./fastq/315_S122_L001_R2_001.fastq.gz
+sample,fastq_1,fastq_2,long_fastq,basecaller_mode
+sample_paired_short_long,shortreads_1.fastq.gz,shortreads_2.fastq.gz,longreads.fastq.gz,r1041_e82_400bps_hac_v4.2.0
+sample_single_short_long,shortreads.fastq,NA,longreads.fastq.gz,r1041_e82_400bps_sup_v4.2.0
+sample_only_long,NA,NA,longreads.fastq.gz,NA
+sample_missing_mode,shortreads_1.fastq.gz,shortreads_2.fastq.gz,NA
 ```
 
-`samplesheet.csv` for single-end data:
-
-```csv
-sample,fastq_1,fastq_2
-sample1,./fastq/barcode01.fastq.gz,
-sample2,./fastq/barcode02.fastq.gz,
-```
-
-The csv format samplesheet has three columns:
+The csv format samplesheet has five required columns:
 * The first row of the csv file is the header describing the columns
 * Each row represents a unique sample to be processed, the first colum is the unique sample id
-* Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
+* When the information for a particular column is missing, please fill the column with "NA"
+* The "fastq_1" and "fastq_2" columns are reserved for supplying the short sequence files
+* "basecaller_mode" is for user to provide medaka inference model
 
 ### Run the pipeline:
 Now, you can run the pipeline using:
