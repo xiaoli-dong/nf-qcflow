@@ -128,9 +128,9 @@ nextflow run nf-qcflow/main.nf \
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `--kraken2_db` | string | `/your_path/kraken2/k2_standard_16gb_20250402` | Path to Kraken2 database |
-| `--deacon_refdb` | string | `/your_path/deacon/v3/panhuman-1.k31w15.idx` | Path to deacon reference database |
-| `--hostile_ref_dir` | string | `/your_path/hostile2` | Path to hostile reference directory |
+| `--kraken2_db` | string | `/your_path_to/kraken2_db` | Path to Kraken2 database |
+| `--deacon_refdb` | string | `/your_path_to/deacon_db` | Path to deacon reference database |
+| `--hostile_ref_dir` | string | `/your_path_to/hostile2_db` | Path to hostile reference directory |
 | `--hostile_refdb_short` | string | `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401` | Hostile reference for short reads |
 | `--hostile_refdb_long` | string | `human-t2t-hla.argos-bacteria-985_rs-viral-202401_ml-phage-202401.mmi` | Hostile reference for long reads |
 
