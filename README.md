@@ -46,7 +46,7 @@ You can clone or download nf-qcflow from GitHub to your local computer, or you c
 nextflow run xiaoli-dong/nf-qcflow -r <revision_number> --help
 
 # Example with specific revision
-nextflow run xiaoli-dong/nf-qcflow -r main --help
+nextflow run xiaoli-dong/nf-qcflow -r ac4a8d1 main --help
 ```
 
 ### Prepare Required Samplesheet Input
