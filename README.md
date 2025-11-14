@@ -42,11 +42,10 @@ The nf-qcflow pipeline requires user to provide a csv format samplesheet, which 
 `samplesheet.csv`
 
 ```csv
-sample,fastq_1,fastq_2,long_fastq,basecaller_mode
-sample_paired_short_long,shortreads_1.fastq.gz,shortreads_2.fastq.gz,longreads.fastq.gz,r1041_e82_400bps_hac_v4.2.0
-sample_single_short_long,shortreads.fastq,NA,longreads.fastq.gz,r1041_e82_400bps_sup_v4.2.0
-sample_only_long,NA,NA,longreads.fastq.gz,NA
-sample_missing_mode,shortreads_1.fastq.gz,shortreads_2.fastq.gz,NA
+sample,fastq_1,fastq_2,long_fastq
+sample_paired_short_long,shortreads_1.fastq.gz,shortreads_2.fastq.gz,longreads.fastq.gz
+sample_single_short_long,shortreads.fastq,NA,longreads.fastq.gz
+sample_only_long,NA,NA,longreads.fastq.gz
 ```
 
 The csv format samplesheet has five required columns:
@@ -54,7 +53,7 @@ The csv format samplesheet has five required columns:
 * Each row represents a unique sample to be processed, the first colum is the unique sample id
 * When the information for a particular column is missing, please fill the column with "NA"
 * The "fastq_1" and "fastq_2" columns are reserved for supplying the short sequence files
-* "basecaller_mode" is for user to provide medaka inference model
+* The long_fastq column is reserved for supplying the long sequence file. 
 
 ### Run the pipeline:
 Now, you can run the pipeline using:
