@@ -1,6 +1,6 @@
 # nf-qcflow
 
-A Nextflow bioinformatics pipeline for NGS sequence quality control, host removal, contamination checking, and statistical reporting. The pipeline supports both Illumina and Nanopore data.
+A comprehensive Nextflow bioinformatics pipeline for next-generation sequencing (NGS) data quality processing. nf-qcflow performs quality control, host sequence removal, contamination screening, and generates detailed statistical reports in both tabular and HTML formats. The pipeline supports both Illumina short-read and Oxford Nanopore long-read sequencing platforms.
 
 ---
 
