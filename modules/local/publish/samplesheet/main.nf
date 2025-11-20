@@ -48,11 +48,9 @@ process PUBLISH_SAMPLESHEET {
                     def filename = file instanceof List ?
                         new File(file[0].toString()).getName() :
                         new File(file.toString()).getName()
-                    def basecaller = meta.basecaller_mode ?: "NA"
 
                     long_reads_map[meta.id] = [
-                        long_fastq: filename,
-                        basecaller_mode: basecaller
+                        long_fastq: filename
                     ]
                 }
             }
@@ -61,7 +59,7 @@ process PUBLISH_SAMPLESHEET {
 
     // Combine samples with same meta.id
     def all_samples = (short_reads_map.keySet() + long_reads_map.keySet()).unique().sort()
-    def rows = ["sample,fastq_1,fastq_2,long_fastq,basecaller_mode"]
+    def rows = ["sample,fastq_1,fastq_2,long_fastq"]
 
     all_samples.each { sample_id ->
         def short_data = short_reads_map[sample_id]
@@ -70,12 +68,12 @@ process PUBLISH_SAMPLESHEET {
         def fastq_1 = short_data?.fastq_1 ?: "NA"
         def fastq_2 = short_data?.fastq_2 ?: "NA"
         def long_fastq = long_data?.long_fastq ?: "NA"
-        def basecaller_mode = long_data?.basecaller_mode ?: "NA"
+
 
         def output_fastq_1 = (fastq_1 != 'NA') ? "${outdir_abs_path}/${fastq_1}" : 'NA'
         def output_fastq_2 = (fastq_2 != 'NA') ? "${outdir_abs_path}/${fastq_2}" : 'NA'
         def output_long_fastq = (long_fastq != 'NA') ? "${outdir_abs_path}/${long_fastq}" : 'NA'
-        rows << "${sample_id},${output_fastq_1},${output_fastq_2},${output_long_fastq},${basecaller_mode}"
+        rows << "${sample_id},${output_fastq_1},${output_fastq_2},${output_long_fastq}"
     }
 
     // Write samplesheet to output
