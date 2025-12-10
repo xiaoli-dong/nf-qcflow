@@ -1,0 +1,87 @@
+topmatch_tablecol = [
+  {
+    "title": "Sample",
+    "data": "Sample"
+  },
+  {
+    "title": "Match1",
+    "data": "Match1"
+  },
+  {
+    "title": "Count1",
+    "data": "count1"
+  },
+  {
+    "title": "Perc1",
+    "data": "perc1"
+  },
+  {
+    "title": "Match2",
+    "data": "Match2"
+  },
+  {
+    "title": "Count2",
+    "data": "count2"
+  },
+  {
+    "title": "Perc2",
+    "data": "perc2"
+  },
+  {
+    "title": "Match3",
+    "data": "Match3"
+  },
+  {
+    "title": "Count3",
+    "data": "count3"
+  },
+  {
+    "title": "Perc3",
+    "data": "perc3"
+  },
+  {
+    "title": "Match4",
+    "data": "Match4"
+  },
+  {
+    "title": "Count4",
+    "data": "count4"
+  },
+  {
+    "title": "Perc4",
+    "data": "perc4"
+  }
+]
+
+topmatch_data = [
+  {
+    "Sample": "test1",
+    "Match1": "Klebsiella pneumoniae",
+    "count1": 3578,
+    "perc1": 90.22,
+    "Match2": "Klebsiella variicola",
+    "count2": 98,
+    "perc2": 2.47,
+    "Match3": "Klebsiella quasipneumoniae",
+    "count3": 90,
+    "perc3": 2.27,
+    "Match4": "Escherichia coli",
+    "count4": 41,
+    "perc4": 1.03
+  },
+  {
+    "Sample": "test2",
+    "Match1": "Klebsiella pneumoniae",
+    "count1": 3994,
+    "perc1": 95.57,
+    "Match2": "Klebsiella variicola",
+    "count2": 54,
+    "perc2": 1.29,
+    "Match3": "Klebsiella quasipneumoniae",
+    "count3": 45,
+    "perc3": 1.08,
+    "Match4": "Escherichia coli",
+    "count4": 15,
+    "perc4": 0.36
+  }
+]

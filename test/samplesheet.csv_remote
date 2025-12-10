@@ -1,0 +1,3 @@
+sample,fastq_1,fastq_2,long_fastq
+test1,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test1_R1.fastq.gz,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test1_R2.fastq.gz,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test1_long.fastq.gz
+test2,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test2_R1.fastq.gz,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test2_R2.fastq.gz,https://github.com/xiaoli-dong/nf-qcflow/blob/main/test/test-data/test2_long.fastq.gz

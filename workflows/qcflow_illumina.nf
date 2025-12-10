@@ -21,14 +21,14 @@ workflow QCFLOW_ILLUMINA {
 
     main:
 
-    ch_versions = Channel.empty()
+    ch_versions = channel.empty()
     //short_reads.view()
     QC_ILLUMINA(short_reads)
     ch_versions = ch_versions.mix(QC_ILLUMINA.out.versions)
     //QC_ILLUMINA.out.qc_reads.view()
 
     PUBLISH_SHORTREADS(QC_ILLUMINA.out.qc_reads)
-    //short_reads_collected = PUBLISH_SHORTREADS.out.reads.collect().ifEmpty([]).collate(2)
+
     short_reads_collected = PUBLISH_SHORTREADS.out.reads
         .collect()
         .ifEmpty([])
@@ -39,7 +39,7 @@ workflow QCFLOW_ILLUMINA {
     // Generate samplesheet
     PUBLISH_SAMPLESHEET(
         short_reads_collected,
-        Channel.value([]),
+        channel.value([]),
     )
 
     //

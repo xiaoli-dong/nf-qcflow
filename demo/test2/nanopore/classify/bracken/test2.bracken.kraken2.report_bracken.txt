@@ -1,0 +1,64 @@
+100.00	4179	0	R	1	root
+100.00	4179	0	R1	131567	  cellular organisms
+100.00	4179	0	D	2	    Bacteria
+100.00	4179	0	K	3379134	      Pseudomonadati
+100.00	4179	0	P	1224	        Pseudomonadota
+100.00	4179	0	C	1236	          Gammaproteobacteria
+99.86	4172	0	O	91347	            Enterobacterales
+99.83	4171	0	F	543	              Enterobacteriaceae
+98.94	4134	0	F1	2890311	                Klebsiella/Raoultella group
+98.94	4134	0	G	570	                  Klebsiella
+98.13	4100	0	G1	3390273	                    Klebsiella pneumoniae complex
+95.58	3994	3994	S	573	                      Klebsiella pneumoniae
+1.31	54	54	S	244366	                      Klebsiella variicola
+1.08	45	45	S	1463165	                      Klebsiella quasipneumoniae
+0.15	6	6	S	2026240	                      Klebsiella quasivariicola
+0.24	10	0	G1	2608929	                    unclassified Klebsiella
+0.10	4	4	S	2851540	                      Klebsiella sp. PL-2018
+0.15	6	6	S	2897413	                      Klebsiella sp. KPN54798
+0.17	7	7	S	2489010	                    Klebsiella africana
+0.16	6	6	S	1134687	                    Klebsiella michiganensis
+0.12	5	5	S	571	                    Klebsiella oxytoca
+0.10	4	4	S	548	                    Klebsiella aerogenes
+0.02	1	1	S	2153354	                    Klebsiella huaxiensis
+0.37	15	0	G	561	                Escherichia
+0.37	15	15	S	562	                  Escherichia coli
+0.17	7	0	G	544	                Citrobacter
+0.15	6	0	G1	1344959	                  Citrobacter freundii complex
+0.15	6	6	S	546	                    Citrobacter freundii
+0.02	1	1	S	545	                  Citrobacter koseri
+0.15	6	0	G	590	                Salmonella
+0.15	6	6	S	28901	                  Salmonella enterica
+0.10	4	0	G	547	                Enterobacter
+0.07	3	0	G1	354276	                  Enterobacter cloacae complex
+0.07	3	3	S	158836	                    Enterobacter hormaechei
+0.02	1	0	G1	2608935	                  unclassified Enterobacter
+0.02	1	1	S	2866201	                    Enterobacter sp. Colony194
+0.03	1	0	G	620	                Shigella
+0.03	1	1	S	624	                  Shigella sonnei
+0.02	1	0	G	83654	                Leclercia
+0.02	1	1	S	83655	                  Leclercia adecarboxylata
+0.02	1	0	G	1330547	                Kosakonia
+0.02	1	0	G1	2632876	                  unclassified Kosakonia
+0.02	1	1	S	2725560	                    Kosakonia sp. SMBL-WEM22
+0.02	1	0	G	158483	                Cedecea
+0.02	1	1	S	158822	                  Cedecea neteri
+0.02	1	0	F	1903412	              Hafniaceae
+0.02	1	0	G	635	                Edwardsiella
+0.02	1	1	S	67780	                  Edwardsiella ictaluri
+0.07	3	0	O	2887326	            Moraxellales
+0.07	3	0	F	468	              Moraxellaceae
+0.07	3	0	G	469	                Acinetobacter
+0.02	1	0	G1	909768	                  Acinetobacter calcoaceticus/baumannii complex
+0.02	1	1	S	470	                    Acinetobacter baumannii
+0.02	1	1	S	202952	                  Acinetobacter gerneri
+0.02	1	1	S	108980	                  Acinetobacter ursingii
+0.05	2	0	O	135624	            Aeromonadales
+0.05	2	0	F	84642	              Aeromonadaceae
+0.05	2	0	G	642	                Aeromonas
+0.05	2	2	S	648	                  Aeromonas caviae
+0.02	1	0	O	72274	            Pseudomonadales
+0.02	1	0	F	2887365	              Marinobacteraceae
+0.02	1	0	G	2742	                Marinobacter
+0.02	1	0	G1	83889	                  unclassified Marinobacter
+0.02	1	1	S	3003349	                    Marinobacter sp. LM1

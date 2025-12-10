@@ -1,0 +1,87 @@
+topmatch_tablecol = [
+  {
+    "title": "Sample",
+    "data": "Sample"
+  },
+  {
+    "title": "Match1",
+    "data": "Match1"
+  },
+  {
+    "title": "Count1",
+    "data": "count1"
+  },
+  {
+    "title": "Perc1",
+    "data": "perc1"
+  },
+  {
+    "title": "Match2",
+    "data": "Match2"
+  },
+  {
+    "title": "Count2",
+    "data": "count2"
+  },
+  {
+    "title": "Perc2",
+    "data": "perc2"
+  },
+  {
+    "title": "Match3",
+    "data": "Match3"
+  },
+  {
+    "title": "Count3",
+    "data": "count3"
+  },
+  {
+    "title": "Perc3",
+    "data": "perc3"
+  },
+  {
+    "title": "Match4",
+    "data": "Match4"
+  },
+  {
+    "title": "Count4",
+    "data": "count4"
+  },
+  {
+    "title": "Perc4",
+    "data": "perc4"
+  }
+]
+
+topmatch_data = [
+  {
+    "Sample": "test1",
+    "Match1": "Klebsiella pneumoniae",
+    "count1": 9141,
+    "perc1": 93.04,
+    "Match2": "Klebsiella sp. Shm-1",
+    "count2": 221,
+    "perc2": 2.25,
+    "Match3": "Klebsiella quasipneumoniae",
+    "count3": 164,
+    "perc3": 1.67,
+    "Match4": "Klebsiella sp. KPN54798",
+    "count4": 136,
+    "perc4": 1.38
+  },
+  {
+    "Sample": "test2",
+    "Match1": "Klebsiella pneumoniae",
+    "count1": 8977,
+    "perc1": 95.82,
+    "Match2": "Klebsiella sp. KPN54798",
+    "count2": 100,
+    "perc2": 1.07,
+    "Match3": "Salmonella enterica",
+    "count3": 92,
+    "perc3": 0.98,
+    "Match4": "Klebsiella sp. Shm-1",
+    "count4": 81,
+    "perc4": 0.86
+  }
+]

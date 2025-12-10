@@ -1,0 +1,23 @@
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Klebsiella pneumoniae	573	S	1065	2513	3578	0.90217
+Klebsiella quasipneumoniae	1463165	S	61	29	90	0.02269
+Klebsiella variicola	244366	S	51	47	98	0.02471
+Klebsiella quasivariicola	2026240	S	6	0	6	0.00151
+Klebsiella aerogenes	548	S	14	0	14	0.00353
+Klebsiella africana	2489010	S	10	0	10	0.00252
+Klebsiella sp. KPN54798	2897413	S	2	28	30	0.00756
+Klebsiella sp. Shm-1	3233339	S	1	22	23	0.00580
+Klebsiella sp. CTHL.F3a	2873296	S	1	1	2	0.00050
+Klebsiella oxytoca	571	S	4	0	4	0.00101
+Klebsiella huaxiensis	2153354	S	4	0	4	0.00101
+Klebsiella michiganensis	1134687	S	3	0	3	0.00076
+Klebsiella grimontii	2058152	S	1	0	1	0.00025
+Escherichia coli	562	S	20	21	41	0.01034
+Salmonella enterica	28901	S	5	35	40	0.01009
+Enterobacter hormaechei	158836	S	4	1	5	0.00126
+Citrobacter freundii	546	S	3	0	3	0.00076
+Phytobacter ursingii	1972431	S	1	1	2	0.00050
+Buchnera aphidicola	9	S	1	0	1	0.00025
+Acinetobacter calcoaceticus	471	S	1	1	2	0.00050
+Mannheimia varigena	85404	S	1	0	1	0.00025
+Vibrio owensii	696485	S	1	0	1	0.00025

@@ -1,0 +1,51 @@
+Detecting adapter sequence for read1...
+GCTGCTGCTG
+
+Detecting adapter sequence for read2...
+CCAGCAGCAG
+
+Read1 before filtering:
+total reads: 10000
+total bases: 1497705
+Q20 bases: 1435389(95.8392%)
+Q30 bases: 1416100(94.5513%)
+Q40 bases: 0(0%)
+
+Read2 before filtering:
+total reads: 10000
+total bases: 1497623
+Q20 bases: 1408108(94.0229%)
+Q30 bases: 1379970(92.144%)
+Q40 bases: 0(0%)
+
+Read1 after filtering:
+total reads: 9402
+total bases: 1391438
+Q20 bases: 1338618(96.2039%)
+Q30 bases: 1321345(94.9625%)
+Q40 bases: 0(0%)
+
+Read2 after filtering:
+total reads: 9402
+total bases: 1389522
+Q20 bases: 1316040(94.7117%)
+Q30 bases: 1290813(92.8962%)
+Q40 bases: 0(0%)
+
+Filtering result:
+reads passed filter: 18804
+reads failed due to low quality: 320
+reads failed due to too many N: 56
+reads failed due to too short: 820
+reads with adapter trimmed: 1174
+bases trimmed due to adapters: 86048
+
+Duplication rate: 0.01%
+
+Insert size peak (evaluated by paired-end reads): 255
+
+JSON report: test2.fastp.json
+HTML report: test2.fastp.html
+
+fastp --in1 test2_1.fastq.gz --in2 test2_2.fastq.gz --out1 test2_1.fastp.fastq.gz --out2 test2_2.fastp.fastq.gz --json test2.fastp.json --html test2.fastp.html --thread 4 --detect_adapter_for_pe --cut_front --cut_front_window_size=1 --cut_front_mean_quality=10 --cut_tail --cut_tail_window_size=1 --cut_tail_mean_quality=10 --n_base_limit 0 --qualified_quality_phred 20 --average_qual 20 --length_required 50 --detect_adapter_for_pe 
+fastp v1.0.1, time used: 6 seconds

@@ -151,7 +151,7 @@ workflow QC_ILLUMINA {
     BRACKEN_GETTOPMATCHES(BRACKEN_BRACKEN.out.reports)
     CSVTK_CONCAT_TOPMATCHES(
         BRACKEN_GETTOPMATCHES.out.csv.map { meta, csv -> csv }.collect().map { csvs ->
-            tuple([id: "reads.topmatches"], csvs)
+            tuple([id: "reads_illumina.topmatches"], csvs)
         },
         'csv',
         'csv',
@@ -161,7 +161,7 @@ workflow QC_ILLUMINA {
         .map { meta, report -> report }
         .collect()
         .map { reports ->
-            tuple([id: "reads_illumina_bracken_report"], reports)
+            tuple([id: "reads_illumina.bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
     ch_software_versions = ch_software_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
@@ -170,7 +170,7 @@ workflow QC_ILLUMINA {
     ch_software_versions = ch_software_versions.mix(REPORT_QCSUMMARY.out.versions)
 
     CSVTK_CONCAT_REPORT(
-        REPORT_QCSUMMARY.out.csv.map { it -> it[1] }.collect().map { files -> tuple([id: "reads.qc_report"], files) },
+        REPORT_QCSUMMARY.out.csv.map { it -> it[1] }.collect().map { files -> tuple([id: "reads_illumina.qc_report"], files) },
         'csv',
         'csv',
     )

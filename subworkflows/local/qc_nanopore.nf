@@ -177,7 +177,7 @@ workflow QC_NANOPORE {
     BRACKEN_GETTOPMATCHES(BRACKEN_BRACKEN.out.reports)
     CSVTK_CONCAT_TOPMATCHES(
         BRACKEN_GETTOPMATCHES.out.csv.map { meta, csv -> csv }.collect().map { csvs ->
-            tuple([id: "reads.topmatches"], csvs)
+            tuple([id: "reads_nanopore.topmatches"], csvs)
         },
         'csv',
         'csv',
@@ -189,7 +189,7 @@ workflow QC_NANOPORE {
         }
         .collect()
         .map { reports ->
-            tuple([id: "reads_nanopore_bracken_report"], reports)
+            tuple([id: "reads_nanopore.bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
     ch_versions = ch_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
@@ -200,7 +200,7 @@ workflow QC_NANOPORE {
         REPORT_QCSUMMARY.out.csv.map { it ->
             it[1]
         }.collect().map { files ->
-            tuple([id: "reads.qc_report"], files)
+            tuple([id: "reads_nanopore.qc_report"], files)
         },
         'csv',
         'csv',

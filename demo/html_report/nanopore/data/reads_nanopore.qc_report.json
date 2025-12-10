@@ -1,0 +1,129 @@
+tablecol = [
+  {
+    "title": "Sample",
+    "data": "sample"
+  },
+  {
+    "title": "Input Num Seqs",
+    "data": "input_num_seqs"
+  },
+  {
+    "title": "Input Sum Len",
+    "data": "input_sum_len"
+  },
+  {
+    "title": "Input Min Len",
+    "data": "input_min_len"
+  },
+  {
+    "title": "Input Avg Len",
+    "data": "input_avg_len"
+  },
+  {
+    "title": "Input Max Len",
+    "data": "input_max_len"
+  },
+  {
+    "title": "Trim Num Seqs",
+    "data": "trim_num_seqs"
+  },
+  {
+    "title": "Trim Sum Len",
+    "data": "trim_sum_len"
+  },
+  {
+    "title": "Trim Min Len",
+    "data": "trim_min_len"
+  },
+  {
+    "title": "Trim Avg Len",
+    "data": "trim_avg_len"
+  },
+  {
+    "title": "Trim Max Len",
+    "data": "trim_max_len"
+  },
+  {
+    "title": "Trim Num Seqs Passed Pct",
+    "data": "trim_num_seqs_passed_pct"
+  },
+  {
+    "title": "Trim Sum Len Passed Pct",
+    "data": "trim_sum_len_passed_pct"
+  },
+  {
+    "title": "Dehost Num Seqs",
+    "data": "dehost_num_seqs"
+  },
+  {
+    "title": "Dehost Sum Len",
+    "data": "dehost_sum_len"
+  },
+  {
+    "title": "Dehost Min Len",
+    "data": "dehost_min_len"
+  },
+  {
+    "title": "Dehost Avg Len",
+    "data": "dehost_avg_len"
+  },
+  {
+    "title": "Dehost Max Len",
+    "data": "dehost_max_len"
+  },
+  {
+    "title": "Dehost Num Seqs Passed Pct",
+    "data": "dehost_num_seqs_passed_pct"
+  },
+  {
+    "title": "Dehost Sum Len Passed Pct",
+    "data": "dehost_sum_len_passed_pct"
+  }
+]
+
+data = [
+  {
+    "sample": "test1",
+    "input_num_seqs": 5000,
+    "input_sum_len": 7690107,
+    "input_min_len": 1,
+    "input_avg_len": 1538.0,
+    "input_max_len": 46871,
+    "trim_num_seqs": 3971,
+    "trim_sum_len": 7529803,
+    "trim_min_len": 200,
+    "trim_avg_len": 1896.2,
+    "trim_max_len": 46871,
+    "trim_num_seqs_passed_pct": 79.42,
+    "trim_sum_len_passed_pct": 97.92,
+    "dehost_num_seqs": 3966,
+    "dehost_sum_len": 7519015,
+    "dehost_min_len": 200,
+    "dehost_avg_len": 1895.9,
+    "dehost_max_len": 46871,
+    "dehost_num_seqs_passed_pct": 79.32,
+    "dehost_sum_len_passed_pct": 97.78
+  },
+  {
+    "sample": "test2",
+    "input_num_seqs": 5000,
+    "input_sum_len": 9873834,
+    "input_min_len": 1,
+    "input_avg_len": 1974.8,
+    "input_max_len": 45305,
+    "trim_num_seqs": 4181,
+    "trim_sum_len": 9697543,
+    "trim_min_len": 200,
+    "trim_avg_len": 2319.4,
+    "trim_max_len": 45305,
+    "trim_num_seqs_passed_pct": 83.62,
+    "trim_sum_len_passed_pct": 98.21,
+    "dehost_num_seqs": 4180,
+    "dehost_sum_len": 9693740,
+    "dehost_min_len": 200,
+    "dehost_avg_len": 2319.1,
+    "dehost_max_len": 45305,
+    "dehost_num_seqs_passed_pct": 83.6,
+    "dehost_sum_len_passed_pct": 98.18
+  }
+]

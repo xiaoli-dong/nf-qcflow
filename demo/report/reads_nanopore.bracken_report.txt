@@ -1,0 +1,36 @@
+name	taxonomy_id	taxonomy_lvl	test1.bracken.tsv_num	test1.bracken.tsv_frac	test2.bracken.tsv_num	test2.bracken.tsv_frac
+Klebsiella pneumoniae	573	S	3578	0.90376	3994	0.95665
+Klebsiella quasipneumoniae	1463165	S	90	0.02273	45	0.01078
+Klebsiella variicola	244366	S	98	0.02475	54	0.01293
+Klebsiella quasivariicola	2026240	S	6	0.00152	6	0.00144
+Klebsiella aerogenes	548	S	14	0.00354	4	0.00096
+Klebsiella africana	2489010	S	10	0.00253	7	0.00168
+Klebsiella sp. KPN54798	2897413	S	30	0.00758	6	0.00144
+Klebsiella sp. Shm-1	3233339	S	23	0.00581	0	0.00000
+Klebsiella sp. CTHL.F3a	2873296	S	2	0.00051	0	0.00000
+Klebsiella oxytoca	571	S	4	0.00101	5	0.00120
+Klebsiella huaxiensis	2153354	S	4	0.00101	1	0.00024
+Klebsiella michiganensis	1134687	S	3	0.00076	6	0.00144
+Klebsiella grimontii	2058152	S	1	0.00025	0	0.00000
+Escherichia coli	562	S	41	0.01036	15	0.00359
+Salmonella enterica	28901	S	40	0.01010	6	0.00144
+Enterobacter hormaechei	158836	S	5	0.00126	3	0.00072
+Citrobacter freundii	546	S	3	0.00076	6	0.00144
+Phytobacter ursingii	1972431	S	2	0.00051	0	0.00000
+Buchnera aphidicola	9	S	1	0.00025	0	0.00000
+Acinetobacter calcoaceticus	471	S	2	0.00051	0	0.00000
+Mannheimia varigena	85404	S	1	0.00025	0	0.00000
+Vibrio owensii	696485	S	1	0.00025	0	0.00000
+Klebsiella sp. PL-2018	2851540	S	0	0.00000	4	0.00096
+Citrobacter koseri	545	S	0	0.00000	1	0.00024
+Enterobacter sp. Colony194	2866201	S	0	0.00000	1	0.00024
+Cedecea neteri	158822	S	0	0.00000	1	0.00024
+Kosakonia sp. SMBL-WEM22	2725560	S	0	0.00000	1	0.00024
+Leclercia adecarboxylata	83655	S	0	0.00000	1	0.00024
+Shigella sonnei	624	S	0	0.00000	1	0.00024
+Edwardsiella ictaluri	67780	S	0	0.00000	1	0.00024
+Acinetobacter baumannii	470	S	0	0.00000	1	0.00024
+Acinetobacter ursingii	108980	S	0	0.00000	1	0.00024
+Acinetobacter gerneri	202952	S	0	0.00000	1	0.00024
+Aeromonas caviae	648	S	0	0.00000	2	0.00048
+Marinobacter sp. LM1	3003349	S	0	0.00000	1	0.00024

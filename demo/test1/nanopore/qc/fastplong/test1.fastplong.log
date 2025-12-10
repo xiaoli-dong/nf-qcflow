@@ -1,0 +1,30 @@
+Trying to detect adapter sequence at read start
+Detected: TCGGTGTCTTTGTGGTTTTCGCATTTATCGTGAAACGCTTTCGCGTTTTT
+Trying to detect adapter sequence at read end
+Detected: GTCGGTGTCTTTGTGGTTTTCGCATTTATCGTGAAACGCTTTCGCGTTTTT
+
+Before filtering:
+total reads: 5000
+total bases: 7690107
+Q20 bases: 6729191(87.5045%)
+Q30 bases: 5918894(76.9676%)
+
+After filtering:
+total reads: 3971
+total bases: 7529803
+Q20 bases: 6641661(88.205%)
+Q30 bases: 5862067(77.8515%)
+
+Filtering result:
+reads passed filter: 3971
+reads failed due to low quality: 499
+reads failed due to too many N: 0
+reads failed due to too short: 530
+reads with adapter trimmed: 513
+bases trimmed due to adapters: 39454
+
+JSON report: test1.fastplong.json
+HTML report: test1.fastplong.html
+
+fastplong --in test1_long.fastq.gz --out test1.fastplong.fastq.gz --json test1.fastplong.json --html test1.fastplong.html --thread 4 --report_title test1_fastplong_report --mean_qual 10 -l 200 
+fastplong v0.4.1, time used: 1 seconds

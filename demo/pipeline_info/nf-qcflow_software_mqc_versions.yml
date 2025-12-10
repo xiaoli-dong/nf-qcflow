@@ -1,0 +1,36 @@
+BRACKEN_COMBINEBRACKENOUTPUTS:
+  combine_bracken_output: 2.9
+CSVTK_CONCAT_REPORT:
+  csvtk: 0.31.0
+DEACON_FILTER_ILLUMINA:
+  deacon: 0.13.2
+DEACON_FILTER_NANOPORE:
+  deacon: 0.13.2
+FASTP:
+  fastp: 1.0.1
+FASTPLONG:
+  fastplong: 0.4.1
+FASTQC_INPUT:
+  fastqc: 0.12.1
+HTML_DATATABLE_CSV2JSON_QCREPORT:
+  python: 3.10.6
+  pandas: 1.4.3
+HTML_DATATABLE_CSV2JSON_TOPMATCHES:
+  python: 3.10.6
+  pandas: 1.4.3
+KRAKEN2_KRAKEN2:
+  kraken2: 2.17.1
+NANOPLOT_INPUT:
+  nanoplot: 1.46.2
+NANOPLOT_QC:
+  nanoplot: 1.46.2
+REPORT_QCSUMMARY:
+  python: 3.10.6
+  pandas: 1.4.3
+SEQKIT_STATS_DEHOST:
+  seqkit: 2.12.0
+SEQKIT_STATS_INPUT:
+  seqkit: 2.12.0
+Workflow:
+    xiaoli-dong/qcflow: v1.0.0dev
+    Nextflow: 25.04.6

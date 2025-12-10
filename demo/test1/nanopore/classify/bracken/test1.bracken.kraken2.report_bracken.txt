@@ -1,0 +1,54 @@
+100.00	3966	0	R	1	root
+100.00	3966	0	R1	131567	  cellular organisms
+100.00	3966	0	D	2	    Bacteria
+100.00	3966	0	K	3379134	      Pseudomonadati
+100.00	3966	0	P	1224	        Pseudomonadota
+100.00	3966	0	C	1236	          Gammaproteobacteria
+99.90	3961	0	O	91347	            Enterobacterales
+99.87	3960	0	F	543	              Enterobacteriaceae
+97.54	3868	0	F1	2890311	                Klebsiella/Raoultella group
+97.54	3868	0	G	570	                  Klebsiella
+95.14	3773	0	G1	3390273	                    Klebsiella pneumoniae complex
+90.22	3578	3578	S	573	                      Klebsiella pneumoniae
+2.27	90	90	S	1463165	                      Klebsiella quasipneumoniae
+2.48	98	98	S	244366	                      Klebsiella variicola
+0.17	6	6	S	2026240	                      Klebsiella quasivariicola
+1.42	56	0	G1	2608929	                    unclassified Klebsiella
+0.76	30	30	S	2897413	                      Klebsiella sp. KPN54798
+0.07	2	2	S	2873296	                      Klebsiella sp. CTHL.F3a
+0.59	23	23	S	3233339	                      Klebsiella sp. Shm-1
+0.37	14	14	S	548	                    Klebsiella aerogenes
+0.27	10	10	S	2489010	                    Klebsiella africana
+0.10	4	4	S	2153354	                    Klebsiella huaxiensis
+0.10	4	4	S	571	                    Klebsiella oxytoca
+0.09	3	3	S	1134687	                    Klebsiella michiganensis
+0.04	1	1	S	2058152	                    Klebsiella grimontii
+1.04	41	0	G	561	                Escherichia
+1.04	41	41	S	562	                  Escherichia coli
+1.01	40	0	G	590	                Salmonella
+1.01	40	40	S	28901	                  Salmonella enterica
+0.14	5	0	G	547	                Enterobacter
+0.14	5	0	G1	354276	                  Enterobacter cloacae complex
+0.14	5	5	S	158836	                    Enterobacter hormaechei
+0.09	3	0	G	544	                Citrobacter
+0.09	3	0	G1	1344959	                  Citrobacter freundii complex
+0.09	3	3	S	546	                    Citrobacter freundii
+0.05	2	0	G	447792	                Phytobacter
+0.05	2	2	S	1972431	                  Phytobacter ursingii
+0.03	1	0	F	1903409	              Erwiniaceae
+0.03	1	0	G	32199	                Buchnera
+0.03	1	1	S	9	                  Buchnera aphidicola
+0.05	2	0	O	2887326	            Moraxellales
+0.05	2	0	F	468	              Moraxellaceae
+0.05	2	0	G	469	                Acinetobacter
+0.05	2	0	G1	909768	                  Acinetobacter calcoaceticus/baumannii complex
+0.05	2	2	S	471	                    Acinetobacter calcoaceticus
+0.03	1	0	O	135625	            Pasteurellales
+0.03	1	0	F	712	              Pasteurellaceae
+0.03	1	0	G	75984	                Mannheimia
+0.03	1	1	S	85404	                  Mannheimia varigena
+0.03	1	0	O	135623	            Vibrionales
+0.03	1	0	F	641	              Vibrionaceae
+0.03	1	0	G	662	                Vibrio
+0.03	1	0	G1	717610	                  Vibrio harveyi group
+0.03	1	1	S	696485	                    Vibrio owensii

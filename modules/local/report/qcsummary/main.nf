@@ -11,7 +11,7 @@ process REPORT_QCSUMMARY{
     tuple val(meta), path(input_stats), path(trimmed_stats), path(dehost_stats)
 
     output:
-    tuple val(meta), path("${prefix}_qc_report.csv"), emit: csv
+    tuple val(meta), path("${prefix}.qc_report.csv"), emit: csv
     path "versions.yml"           , emit: versions
 
     when:
@@ -26,7 +26,7 @@ process REPORT_QCSUMMARY{
     def dehost_tsv = dehost_stats ? "--dehost-stats ${dehost_stats}" : ""
 
     """
-    qc_summary.py ${input_tsv} ${trimmed_tsv} ${dehost_tsv} --output ${prefix}_qc_report.csv
+    qc_summary.py ${input_tsv} ${trimmed_tsv} ${dehost_tsv} --output ${prefix}.qc_report.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
