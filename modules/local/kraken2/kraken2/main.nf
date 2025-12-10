@@ -1,11 +1,11 @@
 process KRAKEN2_KRAKEN2 {
     tag "$meta.id"
-    label 'process_high'
+    label 'process_medium'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/kraken2:2.1.6--pl5321h077b44d_0' :
-        'biocontainers/kraken2:2.1.6--pl5321h077b44d_0' }"
+        'https://depot.galaxyproject.org/singularity/kraken2:2.17.1--pl5321h077b44d_0' :
+        'biocontainers/kraken2:2.17.1--pl5321h077b44d_0' }"
 
     input:
     tuple val(meta), path(reads)

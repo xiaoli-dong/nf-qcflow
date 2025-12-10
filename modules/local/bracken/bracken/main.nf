@@ -2,10 +2,11 @@ process BRACKEN_BRACKEN {
     tag "$meta.id"
     label 'process_low'
 
+    //version 3.x has errors: "Error: no reads found. Please check your Kraken report"
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bracken%3A3.1--h9948957_0':
-        'biocontainers//bracken%3A3.1--h9948957_0' }"
+        'https://depot.galaxyproject.org/singularity/bracken:2.9--py39h9e0f934_1':
+        'biocontainers//bracken:2.9--py39h9e0f934_1' }"
 
     input:
     tuple val(meta), path(kraken_report)

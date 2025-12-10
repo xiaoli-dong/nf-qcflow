@@ -2,10 +2,10 @@ process SEQKIT_STATS {
     tag "$meta.id"
     label 'process_low'
 
-    conda "bioconda::seqkit=2.6.0"
+    conda "bioconda::seqkit=2.12.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/seqkit:2.10.1--he881be0_0':
-        'biocontainers/seqkit:2.10.1--he881be0_0' }"
+        'https://depot.galaxyproject.org/singularity/seqkit:2.12.0--he881be0_0':
+        'biocontainers/seqkit:seqkit:2.12.0--he881be0_0' }"
 
     input:
     tuple val(meta), path(reads)

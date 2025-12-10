@@ -1,11 +1,11 @@
 process CHOPPER {
     tag "$meta.id"
-    label 'process_medium'
+    label 'process_single'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/chopper:0.11.0--hcdda2d0_0':
-        'biocontainers/chopper:0.11.0--hcdda2d0_0' }"
+        'https://depot.galaxyproject.org/singularity/chopper:0.12.0--hcdda2d0_0':
+        'biocontainers/chopper:0.12.0--hcdda2d0_0' }"
 
     input:
     tuple val(meta), path(fastq)

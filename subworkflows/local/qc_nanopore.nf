@@ -93,7 +93,7 @@ workflow QC_NANOPORE {
         qc_stats = SEQKIT_STATS_FASTPLONG.out.stats
         ch_all_stats = ch_all_stats.join(qc_stats)
     }
-    else if(params.long_qc_tool == 'porechop+chopper') {
+    else if(params.long_qc_tool == 'porechop_chopper') {
         PORECHOP_PORECHOP(reads)
         ch_versions = ch_versions.mix(PORECHOP_PORECHOP.out.versions.first())
         PORECHOP_PORECHOP.out.reads
