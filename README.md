@@ -77,8 +77,16 @@ Now you can run the pipeline using:
 **For Illumina data:**
 
 ```bash
+# run locally
 nextflow run xiaoli-dong/nf-qcflow \
   -profile singularity \
+  --input samplesheet.csv \
+  --platform illumina \
+  --outdir results \
+  -resume
+# run on HPC cluster with slurm
+nextflow run xiaoli-dong/nf-qcflow \
+  -profile singularity,slurm \
   --input samplesheet.csv \
   --platform illumina \
   --outdir results \
@@ -88,8 +96,16 @@ nextflow run xiaoli-dong/nf-qcflow \
 **For Nanopore data:**
 
 ```bash
+# run locally
 nextflow run xiaoli-dong/nf-qcflow \
   -profile singularity \
+  --input samplesheet.csv \
+  --platform nanopore \
+  --outdir results \
+  -resume
+# run on HPC cluster with slurm
+nextflow run xiaoli-dong/nf-qcflow \
+  -profile singularity,slurm \
   --input samplesheet.csv \
   --platform nanopore \
   --outdir results \
