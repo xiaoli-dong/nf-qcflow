@@ -40,14 +40,10 @@ nf-qcflow supports both short and long reads:
 
 ### Check Workflow Options
 
-You can clone or download nf-qcflow from GitHub to your local computer, or you can run the pipeline directly from GitHub. To check the pipeline command-line options:
+Please clone nf-qcflow from gitHub to your local computer. To check the pipeline command-line options:
 
 ```bash
-# Running directly from GitHub without downloading or cloning
-nextflow run xiaoli-dong/nf-qcflow -r <revision_number> --help
-
-# Example with specific revision
-nextflow run xiaoli-dong/nf-qcflow -r ac4a8d1 main --help
+nextflow run path_to/nf-qcflow/main --help
 ```
 
 ### Prepare Required Samplesheet Input
@@ -79,14 +75,14 @@ Now you can run the pipeline using:
 
 ```bash
 # run locally
-nextflow run xiaoli-dong/nf-qcflow \
+nextflow run path_to/nf-qcflow \
   -profile singularity \
   --input samplesheet.csv \
   --platform illumina \
   --outdir results \
   -resume
 # run on HPC cluster with slurm
-nextflow run xiaoli-dong/nf-qcflow \
+nextflow run path_to/nf-qcflow \
   -profile singularity,slurm \
   --input samplesheet.csv \
   --platform illumina \
@@ -98,14 +94,14 @@ nextflow run xiaoli-dong/nf-qcflow \
 
 ```bash
 # run locally
-nextflow run xiaoli-dong/nf-qcflow \
+nextflow run path_to/nf-qcflow \
   -profile singularity \
   --input samplesheet.csv \
   --platform nanopore \
   --outdir results \
   -resume
 # run on HPC cluster with slurm
-nextflow run xiaoli-dong/nf-qcflow \
+nextflow run path_to/nf-qcflow \
   -profile singularity,slurm \
   --input samplesheet.csv \
   --platform nanopore \
