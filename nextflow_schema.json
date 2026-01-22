@@ -101,54 +101,53 @@
         },
         "email": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "email_on_fail": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "plaintext_email": {
             "type": "boolean",
-             "hidden": true
+            "hidden": true
         },
         "monochrome_logs": {
             "type": "boolean",
-             "hidden": true
+            "hidden": true
         },
         "hook_url": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "pipelines_testdata_base_path": {
             "type": "string",
-            "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
-             "hidden": true
+            "hidden": true
         },
         "config_profile_name": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "config_profile_description": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "custom_config_version": {
             "type": "string",
             "default": "master",
-             "hidden": true
+            "hidden": true
         },
         "custom_config_base": {
             "type": "string",
             "default": "https://raw.githubusercontent.com/nf-core/configs/master",
-             "hidden": true
+            "hidden": true
         },
         "config_profile_contact": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "config_profile_url": {
             "type": "string",
-             "hidden": true
+            "hidden": true
         },
         "dehoster": {
             "type": "string",
