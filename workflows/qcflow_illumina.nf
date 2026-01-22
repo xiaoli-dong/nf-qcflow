@@ -35,7 +35,7 @@ workflow QCFLOW_ILLUMINA {
         .map { it.collate(2) }
         //.first()
 
-    short_reads_collected.view()
+    //short_reads_collected.view()
     // Generate samplesheet
     PUBLISH_SAMPLESHEET(
         short_reads_collected,
@@ -47,7 +47,7 @@ workflow QCFLOW_ILLUMINA {
     //
     softwareVersionsToYAML(ch_versions).collectFile(
         storeDir: "${params.outdir}/pipeline_info",
-        name: 'nf-qcflow_software_' + 'mqc_' + 'versions.yml',
+        name: 'software_versions.yml',
         sort: true,
         newLine: true,
     )

@@ -1,10 +1,17 @@
 .DS_Store
-test/work
-test/results
-test/.nextflow
+# ignore everything in the test directory
+test/*
+
+#Re-incude specfic files
+!test/sampelsheet.csv
+!test/samplesheet.csv_remote
+!test/test-data/
+!test/test-data/**
+
 docs
 local_test/
 tests
+tests/*
 .nextflow/
 .nextflow*
 work/

@@ -131,7 +131,7 @@ workflow QC_NANOPORE {
     if (!params.skip_dehost) {
 
         if (params.dehoster == 'hostile') {
-            HOSTILE_CLEAN_NANOPORE(qc_reads, [params. hostile_refdb_long, params.hostile_ref_dir])
+            HOSTILE_CLEAN_NANOPORE(qc_reads, [params.hostile_refdb_long, params.hostile_ref_dir])
             ch_versions = ch_versions.mix(HOSTILE_CLEAN_NANOPORE.out.versions.first())
 
             HOSTILE_CLEAN_NANOPORE.out.fastq

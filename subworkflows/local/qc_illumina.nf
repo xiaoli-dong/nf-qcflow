@@ -105,7 +105,7 @@ workflow QC_ILLUMINA {
 
         if (params.dehoster == 'hostile') {
 
-            HOSTILE_CLEAN_ILLUMINA(qc_reads, [params. hostile_refdb_short, params.hostile_ref_dir])
+            HOSTILE_CLEAN_ILLUMINA(qc_reads, [params.hostile_refdb_short, params.hostile_ref_dir])
             ch_software_versions = ch_software_versions.mix(HOSTILE_CLEAN_ILLUMINA.out.versions.first())
             HOSTILE_CLEAN_ILLUMINA.out.fastq
                 .filter { meta, reads ->

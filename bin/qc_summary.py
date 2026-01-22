@@ -41,7 +41,7 @@ def main():
         df = pd.read_csv(args.trim_stats, sep='\t')
         df = df.drop(columns=df.columns[[1, 2]])  # Drop 2nd and 3rd columns
         # Add prefix to all columns except the first
-        prefix = 'trim_'
+        prefix = 'trimmed_'
         df.columns = [df.columns[0]] + [prefix + col for col in df.columns[1:]]
 
         """ merged_df = pd.merge(merged_df, df, on='file',
@@ -49,23 +49,23 @@ def main():
         merged_df = pd.merge(merged_df, df, on='file', how='outer')
 
         # Add percentage columns
-        merged_df['trim_num_seqs_passed_pct'] = (
-            merged_df['trim_num_seqs'] / merged_df['input_num_seqs'] * 100).round(2)
-        merged_df['trim_sum_len_passed_pct'] = (
-            merged_df['trim_sum_len'] / merged_df['input_sum_len'] * 100).round(2)
+        merged_df['trimmed_num_seqs_passed_pct'] = (
+            merged_df['trimmed_num_seqs'] / merged_df['input_num_seqs'] * 100).round(2)
+        merged_df['trimmed_sum_len_passed_pct'] = (
+            merged_df['trimmed_sum_len'] / merged_df['input_sum_len'] * 100).round(2)
         print(merged_df)
 
     if args.dehost_stats:
         df = pd.read_csv(args.dehost_stats, sep='\t')
         df = df.drop(columns=df.columns[[1, 2]])  # Drop 2nd and 3rd columns
         # Add prefix to all columns except the first
-        prefix = 'dehost_'
+        prefix = 'dehosted_'
         df.columns = [df.columns[0]] + [prefix + col for col in df.columns[1:]]
         merged_df = pd.merge(merged_df, df, on='file', how='outer')
-        merged_df['dehost_num_seqs_passed_pct'] = (
-            merged_df['dehost_num_seqs'] / merged_df['input_num_seqs'] * 100).round(2)
-        merged_df['dehost_sum_len_passed_pct'] = (
-            merged_df['dehost_sum_len'] / merged_df['input_sum_len'] * 100).round(2)
+        merged_df['dehosted_num_seqs_passed_pct'] = (
+            merged_df['dehosted_num_seqs'] / merged_df['input_num_seqs'] * 100).round(2)
+        merged_df['dehosted_sum_len_passed_pct'] = (
+            merged_df['dehosted_sum_len'] / merged_df['input_sum_len'] * 100).round(2)
         print(merged_df)
     # Save the result
     merged_df.columns.values[0] = 'sample'

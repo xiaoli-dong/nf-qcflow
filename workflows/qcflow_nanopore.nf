@@ -26,7 +26,7 @@ workflow QCFLOW_NANOPORE {
     main:
 
     ch_versions = Channel.empty()
-    ch_samplesheet.view()
+    //ch_samplesheet.view()
 
     QC_NANOPORE(
             ch_samplesheet,
@@ -53,7 +53,7 @@ workflow QCFLOW_NANOPORE {
     softwareVersionsToYAML(ch_versions)
         .collectFile(
             storeDir: "${params.outdir}/pipeline_info",
-            name:  'nf-qcflow_software_'  + 'mqc_'  + 'versions.yml',
+            name: 'software_versions.yml',
             sort: true,
             newLine: true
         )
