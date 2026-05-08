@@ -11,7 +11,7 @@ include { HOSTILE_CLEAN as HOSTILE_CLEAN_ILLUMINA } from '../../modules/local/ho
 include { DEACON_FILTER as  DEACON_FILTER_ILLUMINA } from '../../modules/local/deacon/filter/main'
 include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
 include { BRACKEN_BRACKEN } from '../../modules/local/bracken/bracken/main'
-include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/local/bracken/combinebrackenoutputs/main'
+//include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/local/bracken/combinebrackenoutputs/main'
 include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
 include { REPORT_QCSUMMARY } from '../../modules/local/report/qcsummary/main'
 include {
@@ -157,14 +157,14 @@ workflow QC_ILLUMINA {
         'csv',
     )
 
-    ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
+    /* ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
         .map { meta, report -> report }
         .collect()
         .map { reports ->
             tuple([id: "reads_illumina.bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
-    ch_software_versions = ch_software_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
+    ch_software_versions = ch_software_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions) */
 
     REPORT_QCSUMMARY(ch_all_stats)
     ch_software_versions = ch_software_versions.mix(REPORT_QCSUMMARY.out.versions)

@@ -19,7 +19,7 @@ include {
 
 include { KRAKEN2_KRAKEN2 } from '../../modules/local/kraken2/kraken2/main.nf'
 include { BRACKEN_BRACKEN } from '../../modules/local/bracken/bracken/main'
-include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/local/bracken/combinebrackenoutputs/main'
+//include { BRACKEN_COMBINEBRACKENOUTPUTS } from '../../modules/local/bracken/combinebrackenoutputs/main'
 include { BRACKEN_GETTOPMATCHES } from '../../modules/local/bracken/gettopmatches/main'
 
 
@@ -183,7 +183,7 @@ workflow QC_NANOPORE {
         'csv',
     )
 
-    ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
+    /* ch_to_combine_bracken_report = BRACKEN_BRACKEN.out.reports
         .map { meta, report ->
             report
         }
@@ -192,7 +192,7 @@ workflow QC_NANOPORE {
             tuple([id: "reads_nanopore.bracken_report"], reports)
         }
     BRACKEN_COMBINEBRACKENOUTPUTS(ch_to_combine_bracken_report)
-    ch_versions = ch_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions)
+    ch_versions = ch_versions.mix(BRACKEN_COMBINEBRACKENOUTPUTS.out.versions) */
 
     REPORT_QCSUMMARY(ch_all_stats)
 
