@@ -273,10 +273,6 @@ If you use nf-qcflow in your research, please cite the appropriate tools:
 
 ---
 
-## Credits
-
-nf-qcflow was originally written by Xiaoli Dong.
-
 ## Support
 
 For issues, questions, or feature requests, please [open an issue](https://github.com/xiaoli-dong/nf-qcflow/issues) on GitHub.
