@@ -3,11 +3,24 @@
 A comprehensive Nextflow bioinformatics pipeline for next-generation sequencing (NGS) data quality processing. nf-qcflow performs quality control, host sequence removal, contamination screening, and generates detailed statistical reports in both tabular and HTML formats. The pipeline supports both Illumina short-read and Oxford Nanopore long-read sequencing platforms.
 A nf-qcflow analysis output demo page can be found at: [nf-qcflow_output_demo](https://github.com/xiaoli-dong/nf-qcflow/tree/main/demo) page
 
----
-
 ## Pipeline Summary
 
 nf-qcflow supports both short and long reads:
+
+
+
+```mermaid
+flowchart TD
+    A[FASTQ] --> B{Platform}
+    B -->|Illumina| C[FastQC → fastp/BBDuk]
+    B -->|Nanopore| D[NanoPlot → fastplong/Porechop+Chopper]
+    C --> E[SeqKit stats]
+    D --> E
+    E --> F[Deacon/hostile]
+    F --> G[Kraken2 → Bracken]
+    G --> H[Reports]
+    H --> I[Output]
+```
 
 ### Short Reads Quality Check and Quality Control
 
@@ -259,10 +272,6 @@ If you use nf-qcflow in your research, please cite the appropriate tools:
 - **seqkit** - Shen, W., Le, S., Li, Y., & Hu, F. (2016). SeqKit: A Cross-Platform and Ultrafast Toolkit for FASTA/Q File Manipulation. *PLOS ONE*, 11(10), e0163962.
 
 ---
-
-## Credits
-
-nf-qcflow was originally written by Xiaoli Dong.
 
 ## Support
 
