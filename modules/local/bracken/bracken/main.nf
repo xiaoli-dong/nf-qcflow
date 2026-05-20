@@ -44,19 +44,26 @@ process BRACKEN_BRACKEN {
         elif grep -q \$'\\tC\\t' "${kraken_report}"; then LEVEL="C"
         elif grep -q \$'\\tP\\t' "${kraken_report}"; then LEVEL="P"
         elif grep -q \$'\\tK\\t' "${kraken_report}"; then LEVEL="K"
-        else LEVEL="D"
+        elif grep -q \$'\\tD\\t' "${kraken_report}"; then LEVEL="D"
+        else LEVEL="NA"
         fi
     fi
 
     echo "Using LEVEL: \$LEVEL"
 
-    bracken ${args} \\
-        -d '${database}' \\
-        -i '${kraken_report}' \\
-        -l \$LEVEL \\
-        -o '${bracken_report}' \\
-        -w '${bracken_kraken_style_report}' \\
-        -t 0
+    if [ "\$LEVEL" = "NA" ]; then
+        echo "No suitable taxonomic level found in Kraken report"
+        touch '${bracken_report}'
+        touch '${bracken_kraken_style_report}'
+    else
+        bracken ${args} \\
+            -d '${database}' \\
+            -i '${kraken_report}' \\
+            -l \$LEVEL \\
+            -o '${bracken_report}' \\
+            -w '${bracken_kraken_style_report}' \\
+            -t 0
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
