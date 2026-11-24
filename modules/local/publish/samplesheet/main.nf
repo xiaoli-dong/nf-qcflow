@@ -13,7 +13,7 @@ process PUBLISH_SAMPLESHEET {
     def short_reads_map = [:]
     def long_reads_map = [:]
     def prefix = task.ext.prefix ?: ""
-    outdir_abs_path = file(params.outdir).toAbsolutePath().toString() + "/readqc"
+    outdir_abs_path = file(params.outdir).toAbsolutePath().toString() + "/qc"
     // Parse short reads
     if (short_reads_list && short_reads_list instanceof List) {
         short_reads_list.each { item ->

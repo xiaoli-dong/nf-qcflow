@@ -83,7 +83,7 @@ workflow QCFLOW {
 
     // 3. Pass the list to CSVTK_CONCAT
     CSVTK_CONCAT_COMBINED_QCREPORTS(
-        ch_combined_reports.map { files -> tuple([id: "reads.qc_report"], files) },
+        ch_combined_reports.map { files -> tuple([id: "reads.qcreport"], files) },
         "csv",
         "csv",
     )

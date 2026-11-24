@@ -45,14 +45,6 @@
             "description": "Parameters used to describe centralised config profiles. These should not be edited.",
             "help_text": "The centralised nf-core configuration profiles use a handful of pipeline parameters to describe themselves. This information is then printed to the Nextflow log when you run a pipeline. You should not need to change these values when you run a pipeline.",
             "properties": {
-                "custom_config_version": {
-                    "type": "string",
-                    "description": "Git commit id for Institutional configs.",
-                    "default": "master",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
-                },
-
                 "config_profile_name": {
                     "type": "string",
                     "description": "Institutional config name.",
@@ -62,18 +54,6 @@
                 "config_profile_description": {
                     "type": "string",
                     "description": "Institutional config description.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_contact": {
-                    "type": "string",
-                    "description": "Institutional config contact information.",
-                    "hidden": true,
-                    "fa_icon": "fas fa-users-cog"
-                },
-                "config_profile_url": {
-                    "type": "string",
-                    "description": "Institutional config URL link.",
                     "hidden": true,
                     "fa_icon": "fas fa-users-cog"
                 }
@@ -132,7 +112,7 @@
                     "type": "string",
                     "fa_icon": "far fa-check-circle",
                     "description": "Base URL or local path to location of pipeline test dataset files",
-                    "default": "https://raw.githubusercontent.com/nf-core/test-datasets/",
+                    "default": "/nfs/Genomics_DEV/projects/xdong/deve/nf-qcflow/tests/test_data/",
                     "hidden": true
                 },
                 "trace_report_suffix": {
@@ -166,5 +146,35 @@
         {
             "$ref": "#/$defs/generic_options"
         }
-    ]
+    ],
+    "properties": {
+        "skip_trimmer_short": {
+            "type": "boolean"
+        },
+        "short_trimmer": {
+            "type": "string",
+            "default": "fastp"
+        },
+        "skip_trimmer_long": {
+            "type": "boolean"
+        },
+        "long_trimmer": {
+            "type": "string",
+            "default": "fastplong"
+        },
+        "adapter_fasta": {
+            "type": "string"
+        },
+        "skip_dehost": {
+            "type": "boolean"
+        },
+        "deacon_refdb": {
+            "type": "string",
+            "default": "/nfs/APL_Genomics/db/prod/deacon/v3/panhuman-1.k31w15.idx"
+        },
+        "kraken2_db": {
+            "type": "string",
+            "default": "/nfs/APL_Genomics/db/prod/kraken2/k2_standard_16gb_20250402"
+        }
+    }
 }
