@@ -19,28 +19,32 @@ flowchart TD
     B --> C["Illumina short reads"]
     B --> D["Oxford Nanopore long reads"]
 
-    C --> E["FastQC and SeqKit"]
-    E --> F{"Short-read trimmer"}
-    F -->|fastp| G["fastp"]
-    F -->|bbduk| H["BBDuk"]
+    subgraph SHORT["Illumina workflow"]
+        C --> E["FastQC and SeqKit"]
+        E --> F{"Read trimming"}
+        F --> G["fastp"]
+        F --> H["BBDuk"]
+        G --> I["Deacon host removal"]
+        H --> I
+        I --> J["Kraken2 and Bracken"]
+    end
 
-    D --> I["NanoPlot and SeqKit"]
-    I --> J{"Long-read trimmer"}
-    J -->|fastplong| K["fastplong"]
-    J -->|porechop_chopper| L["Porechop and Chopper"]
+    subgraph LONG["Oxford Nanopore workflow"]
+        D --> K["NanoPlot and SeqKit"]
+        K --> L{"Read trimming"}
+        L --> M["fastplong"]
+        L --> N["Porechop and Chopper"]
+        M --> O["Deacon host removal"]
+        N --> O
+        O --> P["Kraken2 and Bracken"]
+    end
 
-    G --> M["Deacon host removal"]
-    H --> M
-    K --> N["Deacon host removal"]
-    L --> N
-
-    M --> O["Kraken2 and Bracken"]
-    N --> P["Kraken2 and Bracken"]
-
-    O --> Q["Combine and summarize results"]
+    J --> Q["Combine and summarize results"]
     P --> Q
+
     Q --> R["Tabular reports"]
     Q --> S["HTML report"]
+
 ```
 
 ### Workflow components
