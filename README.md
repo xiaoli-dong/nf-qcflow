@@ -13,7 +13,7 @@ A [demo of nf-qcflow output](<https://github.com/xiaoli-dong/nf-qcflow>) is avai
 ## Workflow overview
 
 ```mermaid
-flowchart TD
+flowchart LR
     A["Input samplesheet"] --> B["Automatic read-type detection"]
 
     B --> C["Illumina short reads"]
