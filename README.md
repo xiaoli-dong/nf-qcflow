@@ -8,7 +8,6 @@ The pipeline supports both Illumina short-read and Oxford Nanopore long-read dat
 
 The workflow generates read statistics, taxonomic classification results, and consolidated reports in tabular and HTML formats.
 
-A [demo of nf-qcflow output](<https://github.com/xiaoli-dong/nf-qcflow>) is available.
 
 ## Workflow overview
 
