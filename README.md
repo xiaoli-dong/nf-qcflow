@@ -13,26 +13,13 @@ A [demo of nf-qcflow output](<https://github.com/xiaoli-dong/nf-qcflow>) is avai
 ## Workflow overview
 
 ```mermaid
-%%{init: {
-  "flowchart": {
-    "htmlLabels": true,
-    "nodeSpacing": 60,
-    "rankSpacing": 70,
-    "padding": 20,
-    "useMaxWidth": true
-  },
-  "themeVariables": {
-    "fontSize": "16px"
-  }
-}}%%
-flowchart TB
+flowchart TD
     A["Input samplesheet"] --> B["Automatic read-type detection"]
 
-    B --> C["Illumina short reads"]
-    B --> D["Oxford Nanopore long reads"]
+    B --> C["short reads"]
+    B --> D["long reads"]
 
     subgraph SHORT["Illumina workflow"]
-        direction TB
         C --> E["FastQC and SeqKit"]
         E --> F{"Read trimming"}
         F --> G["fastp"]
@@ -43,7 +30,6 @@ flowchart TB
     end
 
     subgraph LONG["Oxford Nanopore workflow"]
-        direction TB
         D --> K["NanoPlot and SeqKit"]
         K --> L{"Read trimming"}
         L --> M["fastplong"]
