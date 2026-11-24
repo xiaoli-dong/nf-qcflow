@@ -13,33 +13,28 @@ A [demo of nf-qcflow output](<https://github.com/xiaoli-dong/nf-qcflow>) is avai
 ## Workflow overview
 
 ```mermaid
-flowchart TD
+flowchart TB
     A["Input samplesheet"] --> B["Automatic read-type detection"]
 
-    B --> C["short reads"]
-    B --> D["long reads"]
+    B --> C["Short reads"]
+    C --> D["FastQC and SeqKit"]
+    D --> E{"Read trimming"}
+    E --> F["fastp"]
+    E --> G["BBDuk"]
+    F --> H["Deacon"]
+    G --> H
+    H --> I["Kraken2 and Bracken"]
 
-    subgraph SHORT["Illumina workflow"]
-        C --> E["FastQC and SeqKit"]
-        E --> F{"Read trimming"}
-        F --> G["fastp"]
-        F --> H["BBDuk"]
-        G --> I["Deacon host removal"]
-        H --> I
-        I --> J["Kraken2 and Bracken"]
-    end
+    B --> J["Long reads"]
+    J --> K["NanoPlot and SeqKit"]
+    K --> L{"Read trimming"}
+    L --> M["fastplong"]
+    L --> N["Porechop and Chopper"]
+    M --> O["Deacon"]
+    N --> O
+    O --> P["Kraken2 and Bracken"]
 
-    subgraph LONG["Oxford Nanopore workflow"]
-        D --> K["NanoPlot and SeqKit"]
-        K --> L{"Read trimming"}
-        L --> M["fastplong"]
-        L --> N["Porechop and Chopper"]
-        M --> O["Deacon host removal"]
-        N --> O
-        O --> P["Kraken2 and Bracken"]
-    end
-
-    J --> Q["Combine and summarize results"]
+    I --> Q["Combine and summarize results"]
     P --> Q
 
     Q --> R["Tabular reports"]
