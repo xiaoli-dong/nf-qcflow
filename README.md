@@ -203,6 +203,7 @@ Open `html_report/index.html` in a web browser to view the report.
 **Example of the interactive HTML report:**
 
 ![nf-qcflow interactive HTML report](docs/images/html_report.png)
+<img width="1802" height="874" alt="image" src="https://github.com/user-attachments/assets/42b36a75-ca37-4b31-ac68-9d8c489c7007" />
 
 *Replace this placeholder with a screenshot of the actual report.*
 
