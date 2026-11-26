@@ -12,32 +12,33 @@ The workflow generates read statistics, taxonomic classification results, and co
 ## Workflow overview
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 350}}}%%
 flowchart TD
-    A["Input<br/>samplesheet"] --> B["Automatic<br/>read-type<br/>detection"]
+    A["Input samplesheet"] --> B["Automatic read-type detection"]
 
     B --> C["Short reads"]
     B --> D["Long reads"]
 
-    C --> E["FastQC<br/>and SeqKit"]
-    E --> F{"Read<br/>trimming"}
+    C --> E["FastQC and SeqKit"]
+    E --> F{"Read trimming"}
     F --> G["fastp"]
     F --> H["BBDuk"]
-    G --> I["Deacon<br/>host removal"]
+    G --> I["Deacon host removal"]
     H --> I
-    I --> J["Kraken2<br/>and Bracken"]
+    I --> J["Kraken2 and Bracken"]
 
-    D --> K["NanoPlot<br/>and SeqKit"]
-    K --> L{"Read<br/>trimming"}
+    D --> K["NanoPlot and SeqKit"]
+    K --> L{"Read trimming"}
     L --> M["fastplong"]
-    L --> N["Porechop<br/>and Chopper"]
-    M --> O["Deacon<br/>host removal"]
+    L --> N["Porechop and Chopper"]
+    M --> O["Deacon host removal"]
     N --> O
-    O --> P["Kraken2<br/>and Bracken"]
+    O --> P["Kraken2 and Bracken"]
 
-    J --> Q["Combine and<br/>summarize results"]
+    J --> Q["Combine and summarize results"]
     P --> Q
 
-    Q --> R["Tabular<br/>reports"]
+    Q --> R["Tabular reports"]
     Q --> S["HTML report"]
 ```
 
