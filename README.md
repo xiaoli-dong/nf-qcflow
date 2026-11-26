@@ -54,13 +54,8 @@ flowchart TD
 The trimmer used for each read type can be selected through pipeline parameters. Host removal and read preprocessing can also be skipped when appropriate.
 
 ## Requirements
-
-- Linux
 - [Nextflow](https://www.nextflow.io/) >= 25.10.4
-- A supported container runtime, such as Singularity/Apptainer or Docker
 - Access to the required reference databases
-
-This pipeline was built using nf-core/tools 4.0.
 
 If you are new to Nextflow, refer to the [Nextflow installation documentation](https://www.nextflow.io/docs/latest/install.html). Before processing actual samples, test your installation using the test profile.
 
