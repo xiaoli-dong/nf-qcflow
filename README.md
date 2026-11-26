@@ -203,7 +203,6 @@ Open `html_report/index.html` in a web browser to view the report.
 **Example of the interactive HTML report:**
 <img width="1286" height="925" alt="image" src="https://github.com/user-attachments/assets/b0e4a0da-f4a0-4384-8f95-f4c805910fb7" />
 
-*Replace this placeholder with a screenshot of the actual report.*
 
 ### Main output files
 
